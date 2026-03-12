@@ -10,20 +10,34 @@ export default function Navbar() {
   const { t, locale, toggleLocale } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+
+  const navLinks = [
+    { label: t.nav.home, href: "#home", id: "home" },
+    { label: t.nav.services, href: "#services", id: "services" },
+    { label: t.nav.about, href: "#about", id: "about" },
+    { label: t.nav.certifications, href: "#certifications", id: "certifications" },
+    { label: t.nav.contact, href: "#contact", id: "contact" },
+  ];
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 8);
+
+      const sections = navLinks.map(l => document.getElementById(l.id)).filter(Boolean) as HTMLElement[];
+      const offset = 100;
+      let current = "home";
+      for (const section of sections) {
+        if (window.scrollY + offset >= section.offsetTop) {
+          current = section.id;
+        }
+      }
+      setActiveSection(current);
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navLinks = [
-    { label: t.nav.home, href: "#home" },
-    { label: t.nav.services, href: "#services" },
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.certifications, href: "#certifications" },
-    { label: t.nav.contact, href: "#contact" },
-  ];
 
   return (
     <nav
@@ -43,15 +57,30 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-7">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-brand-gray hover:text-brand-blue transition-colors duration-150"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="relative text-sm font-medium transition-colors duration-300"
+                  style={{ color: isActive ? "#4A8FE0" : undefined }}
+                >
+                  <span className={`transition-colors duration-300 ${isActive ? "text-brand-blue" : "text-brand-gray hover:text-brand-blue"}`}>
+                    {link.label}
+                  </span>
+                  {/* Underline indicator */}
+                  <span
+                    className="absolute -bottom-1 left-0 h-0.5 rounded-full transition-all duration-300"
+                    style={{
+                      width: isActive ? "100%" : "0%",
+                      background: "#4A8FE0",
+                      opacity: isActive ? 1 : 0,
+                    }}
+                  />
+                </a>
+              );
+            })}
           </div>
 
           {/* Right side: Language switcher + mobile trigger */}
@@ -72,16 +101,22 @@ export default function Navbar() {
         {/* Mobile drawer */}
         {mobileOpen && (
           <div className="lg:hidden mt-2 mb-2 rounded-xl border border-gray-100 shadow-lg overflow-hidden bg-white">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center px-5 py-3.5 text-sm font-medium text-brand-gray-dark hover:text-brand-blue hover:bg-bg-section transition-colors border-b border-gray-50 last:border-0"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center px-5 py-3.5 text-sm font-medium transition-colors border-b border-gray-50 last:border-0 ${
+                    isActive ? "text-brand-blue bg-blue-50" : "text-brand-gray-dark hover:text-brand-blue hover:bg-bg-section"
+                  }`}
+                >
+                  {isActive && <span className="w-1 h-4 rounded-full bg-brand-blue mr-3 flex-shrink-0" />}
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
         )}
       </div>
