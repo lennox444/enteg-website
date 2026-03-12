@@ -22,6 +22,10 @@ export const metadata: Metadata = {
     "Professionelle Entsorgung, Datenträgervernichtung und Wiederverwertung von Elektro- und Elektronikgeräten. ISO 9001, ISO 14001, DIN 66399. Delbrück.",
   keywords:
     "Elektrorecycling, Entsorgung, Datenträgervernichtung, ISO 14001, ElektroG, Delbrück",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

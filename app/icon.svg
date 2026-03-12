@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="378 218 105 100">
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    @keyframes pronGlow {
+      0%   { fill: #477DCF; filter: url(#glow) drop-shadow(0 0 3px #477DCF88); }
+      50%  { fill: #5a9ae8; filter: url(#glow) drop-shadow(0 0 7px #5a9ae8cc); }
+      100% { fill: #477DCF; filter: url(#glow) drop-shadow(0 0 3px #477DCF88); }
+    }
+    @keyframes flicker {
+      0%,  86%,  90%,  94%, 100% { opacity: 1; }
+      87%, 89%                   { opacity: 0.25; }
+      91%, 93%                   { opacity: 0.6; }
+    }
+    .p1 { animation: pronGlow 3.2s ease-in-out infinite 0s, flicker 9s linear infinite 1s; }
+    .p2 { animation: pronGlow 3.2s ease-in-out infinite 0.55s, flicker 9s linear infinite 2.4s; }
+  </style>
+
+  <!-- E2 top bar -->
+  <polygon fill="#ffffff" points="405.822,225.476 417.466,225.476 464.175,225.476 466.524,225.476 465.988,227.763 463.256,239.407 462.918,240.849 461.444,240.849 416.209,240.849 412.058,258.545 397.301,258.545 396.591,258.545 396.689,258.122 401.278,238.563 404.009,226.918 404.348,225.476"/>
+  <!-- E2 middle bar -->
+  <polygon fill="#ffffff" points="397.301,262.755 455.43,262.755 457.779,262.755 457.243,265.041 455.028,274.487 454.689,275.929 453.215,275.929 395.085,275.929 392.736,275.929 393.272,273.642 395.488,264.197 395.827,262.755"/>
+  <!-- E2 bottom bar -->
+  <polygon fill="#ffffff" points="384.377,310.611 391,282.379 406.467,282.379 402.915,297.525 447.275,297.525 449.624,297.525 449.087,299.812 446.356,311.456 446.018,312.897 444.543,312.897 397.834,312.897 386.19,312.897 383.841,312.897"/>
+
+  <!-- Prong 1 (top blue stripe) -->
+  <polygon class="p1" points="423.886,246.9 476.387,246.9 473.655,258.545 421.155,258.545"/>
+  <!-- Prong 2 (bottom blue stripe) -->
+  <polygon class="p2" points="415.564,282.379 468.064,282.379 465.333,294.024 412.832,294.024"/>
+</svg>
