@@ -1,30 +1,50 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Truck, Factory, FileCheck } from "lucide-react";
 import { useTranslation } from "@/lib/i18n-context";
 
 const uspIcons = [Factory, Truck, FileCheck];
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function About() {
   const { t } = useTranslation();
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="about" className="bg-white overflow-hidden">
+    <section id="about" ref={ref} className="bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
 
         {/* Section header */}
-        <div className="flex items-end gap-6 border-b border-gray-200 pb-8 mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.65, ease }}
+          className="flex items-end gap-6 border-b border-gray-200 pb-8 mb-14"
+        >
           <h2 className="font-headline text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-gray-dark uppercase leading-none">
             {t.about.title}
           </h2>
-          <div className="w-10 h-1 bg-brand-blue mb-2 flex-shrink-0" />
-        </div>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={inView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.45, delay: 0.3, ease }}
+            className="w-10 h-1 bg-brand-blue mb-2 flex-shrink-0 origin-left"
+          />
+        </motion.div>
 
         {/* Main grid: 3 columns on desktop */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr_1fr] gap-8 lg:gap-10 items-start">
 
           {/* ── COL 1: Image ── */}
-          <div className="relative">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.12, ease }}
+            className="relative"
+          >
             {/* Decorative year */}
             <div
               className="absolute -top-4 -left-2 font-headline font-bold text-gray-100 leading-none select-none pointer-events-none z-0"
@@ -36,15 +56,31 @@ export default function About() {
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl group">
               <div
                 className="h-72 lg:h-[420px] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{
-                  backgroundImage: "url('/enteg-building.svg')",
-                }}
+                style={{ backgroundImage: "url('/enteg-building.svg')" }}
               />
+              {/* Subtle blue tint on hover */}
+              <div className="absolute inset-0 bg-brand-blue/0 group-hover:bg-brand-blue/5 transition-colors duration-500" />
             </div>
-          </div>
+
+            {/* Floating badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.55, ease }}
+              className="absolute -bottom-4 -right-2 lg:-right-4 bg-brand-blue text-white rounded-xl px-4 py-2.5 shadow-lg z-20"
+            >
+              <div className="font-headline text-xl font-bold leading-none">ISO</div>
+              <div className="text-[10px] font-semibold tracking-widest opacity-80 mt-0.5">ZERTIFIZIERT</div>
+            </motion.div>
+          </motion.div>
 
           {/* ── COL 2: Text ── */}
-          <div className="flex flex-col justify-start lg:pt-2">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.22, ease }}
+            className="flex flex-col justify-start lg:pt-2"
+          >
             <p className="text-brand-gray text-base leading-relaxed mb-4">
               {t.about.body}
             </p>
@@ -58,9 +94,12 @@ export default function About() {
                 { value: "30+",  label: t.about.statLabels[0] },
                 { value: "5",    label: t.about.statLabels[1] },
                 { value: "2026", label: t.about.statLabels[2] },
-              ].map((s) => (
-                <div
+              ].map((s, i) => (
+                <motion.div
                   key={s.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.4, delay: 0.45 + i * 0.08, ease }}
                   className="flex items-baseline gap-1.5 bg-bg-light border border-gray-200 rounded-xl px-4 py-2.5"
                 >
                   <span className="font-headline text-2xl font-bold text-brand-blue leading-none">
@@ -69,29 +108,41 @@ export default function About() {
                   <span className="text-xs uppercase tracking-wide text-brand-gray font-semibold">
                     {s.label}
                   </span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <a
+            <motion.a
               href="#contact"
-              className="mt-8 inline-flex items-center gap-2 text-brand-blue font-semibold text-sm hover:text-brand-blue-dark transition-colors duration-200 group"
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.65 }}
+              whileHover={{ x: 4 }}
+              className="mt-8 inline-flex items-center gap-2 text-brand-blue font-semibold text-sm transition-colors duration-200 group w-fit"
             >
               {t.about.cta}
-              <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
-            </a>
-          </div>
+              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            </motion.a>
+          </motion.div>
 
           {/* ── COL 3: USPs ── */}
-          <div className="flex flex-col gap-0 divide-y divide-gray-100 lg:border-l lg:border-gray-100 lg:pl-8">
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.32, ease }}
+            className="flex flex-col gap-0 divide-y divide-gray-100 lg:border-l lg:border-gray-100 lg:pl-8"
+          >
             {t.about.usps.map((usp, i) => {
               const Icon = uspIcons[i];
               return (
-                <div
+                <motion.div
                   key={i}
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.4 + i * 0.1, ease }}
                   className="flex items-start gap-4 py-5 group"
                 >
-                  <div className="flex-shrink-0 mt-0.5 w-9 h-9 rounded-xl bg-brand-blue/8 flex items-center justify-center group-hover:bg-brand-blue/15 transition-colors duration-200">
+                  <div className="flex-shrink-0 mt-0.5 w-10 h-10 rounded-xl bg-brand-blue/8 flex items-center justify-center group-hover:bg-brand-blue/15 group-hover:scale-110 transition-all duration-300">
                     <Icon size={18} className="text-brand-blue" />
                   </div>
                   <div>
@@ -102,22 +153,25 @@ export default function About() {
                       {usp.desc}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
 
             {/* Cert badge row */}
             <div className="pt-5 flex flex-wrap gap-2">
-              {["ISO 9001", "ISO 14001", "DIN 66399", "ElektroG"].map((c) => (
-                <span
+              {["ISO 9001", "ISO 14001", "DIN 66399", "ElektroG"].map((c, i) => (
+                <motion.span
                   key={c}
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={inView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.35, delay: 0.7 + i * 0.06, ease }}
                   className="text-xs font-semibold text-brand-blue bg-brand-blue/8 border border-brand-blue/20 px-2.5 py-1 rounded-lg"
                 >
                   {c}
-                </span>
+                </motion.span>
               ))}
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>

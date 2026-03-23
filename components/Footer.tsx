@@ -3,55 +3,48 @@
 import { useTranslation } from "@/lib/i18n-context";
 import { EntegLogoAnimated } from "@/components/ui/enteg-logo-animated";
 
+const BLUE = "#4A8FE0";
+
 export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="relative overflow-hidden" style={{ background: "#07101C", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-      {/* IBM-style vertical stripes */}
+    <footer
+      className="relative overflow-hidden"
+      style={{ background: "#07101C", borderTop: "1px solid rgba(255,255,255,0.05)" }}
+    >
       <div
         className="absolute inset-0 pointer-events-none select-none"
         style={{
-          backgroundImage: `repeating-linear-gradient(
-            180deg,
-            transparent 0px,
-            transparent 15px,
-            rgba(74,143,224,0.09) 15px,
-            rgba(74,143,224,0.09) 17px
-          )`,
+          backgroundImage: `repeating-linear-gradient(180deg, transparent 0px, transparent 15px, rgba(74,143,224,0.07) 15px, rgba(74,143,224,0.07) 17px)`,
         }}
       />
-      {/* Radial glow */}
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, rgba(74,143,224,0.07) 0%, transparent 70%)" }}
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: `linear-gradient(90deg, transparent, ${BLUE}40 40%, ${BLUE}40 60%, transparent)` }}
       />
-      <div className="relative h-full min-h-[120px] flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
-          {/* Logo */}
+
+      <div
+        className="relative flex flex-col items-center gap-4 px-4 py-8"
+        style={{ paddingBottom: "max(2rem, env(safe-area-inset-bottom))" }}
+      >
+        {/* Logo + links in one row, vertically centered */}
+        <div className="flex items-center gap-8">
           <EntegLogoAnimated light className="h-10 w-auto" />
 
-          {/* Links */}
-          <div className="flex items-center gap-6 text-sm">
-            <a
-              href="/impressum"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
+          <div className="flex items-center gap-5 text-sm">
+            <a href="/impressum" className="text-gray-400 hover:text-white transition-colors">
               {t.footer.imprint}
             </a>
             <span className="text-gray-700">·</span>
-            <a
-              href="/datenschutz"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
+            <a href="/datenschutz" className="text-gray-400 hover:text-white transition-colors">
               {t.footer.privacy}
             </a>
           </div>
         </div>
 
-        <p className="text-gray-600 text-xs mt-5">{t.footer.copyright}</p>
+        <p className="text-gray-600 text-xs">{t.footer.copyright}</p>
       </div>
     </footer>
   );
 }
-

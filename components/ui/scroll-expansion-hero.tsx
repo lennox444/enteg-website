@@ -4,9 +4,8 @@ import {
   useEffect,
   useRef,
   useState,
+  useCallback,
   ReactNode,
-  TouchEvent,
-  WheelEvent,
 } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -39,170 +38,218 @@ const ScrollExpandMedia = ({
   children,
   onScrollProgress,
 }: ScrollExpandMediaProps) => {
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [showContent, setShowContent] = useState<boolean>(false);
-  const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
-  const [touchStartY, setTouchStartY] = useState<number>(0);
-  const [isMobileState, setIsMobileState] = useState<boolean>(false);
+  // ── Threshold state (rare changes — 0→1 each, max) ──────────────
+  const [showContent, setShowContent] = useState(false);
+  const [mediaFullyExpanded, setMediaFullyExpanded] = useState(false);
 
-  const sectionRef = useRef<HTMLDivElement | null>(null);
+  // ── Scroll progress as ref — zero React re-renders during scroll ─
+  const progressRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+  const touchStartYRef = useRef(0);
+  const isMobileRef = useRef(false);
+  const mediaFullyExpandedRef = useRef(false); // mirror state for event handlers
 
+  // ── DOM refs for direct style updates ───────────────────────────
+  const bgPhotoRef = useRef<HTMLDivElement>(null);
+  const cpuBgRef = useRef<HTMLDivElement>(null);
+  const mediaBoxRef = useRef<HTMLDivElement>(null);
+  const firstWordRef = useRef<HTMLHeadingElement>(null);
+  const secondWordRef = useRef<HTMLHeadingElement>(null);
+  const hintRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const progressBarWrapRef = useRef<HTMLDivElement>(null);
+
+  // ── Sync state mirror ────────────────────────────────────────────
   useEffect(() => {
-    setScrollProgress(0);
-    setShowContent(false);
-    setMediaFullyExpanded(false);
-  }, [mediaType]);
+    mediaFullyExpandedRef.current = mediaFullyExpanded;
+  }, [mediaFullyExpanded]);
 
+  // ── Direct DOM update — runs inside RAF, zero React overhead ─────
+  const applyProgress = useCallback((p: number) => {
+    const mobile = isMobileRef.current;
+
+    // Media box size
+    const w = mobile ? 260 + p * 220 : 420 + p * 400;
+    const h = mobile ? 300 + p * 180 : 480 + p * 100;
+    if (mediaBoxRef.current) {
+      mediaBoxRef.current.style.width = `${w}px`;
+      mediaBoxRef.current.style.height = `${h}px`;
+    }
+
+    // Text slide — needs 110vw+ on mobile so long words like "RECYCLING POWER" clear the edge
+    const tx = p * (mobile ? 110 : 150);
+    if (firstWordRef.current)  firstWordRef.current.style.transform  = `translateX(-${tx}vw)`;
+    if (secondWordRef.current) secondWordRef.current.style.transform = `translateX(${tx}vw)`;
+
+    // Background crossfade
+    if (bgPhotoRef.current)  bgPhotoRef.current.style.opacity  = String(1 - p);
+    if (cpuBgRef.current)    cpuBgRef.current.style.opacity    = String(p);
+
+    // Hint fade
+    if (hintRef.current) hintRef.current.style.opacity = String(Math.max(0, 1 - p * 2));
+
+    // Progress bar
+    if (progressBarRef.current) progressBarRef.current.style.width = `${p * 100}%`;
+    if (progressBarWrapRef.current) progressBarWrapRef.current.style.display = p >= 1 ? 'none' : 'block';
+  }, []);
+
+  // ── Mobile detection + initial size sync ────────────────────────
+  useEffect(() => {
+    const check = () => {
+      isMobileRef.current = window.innerWidth < 768;
+      applyProgress(progressRef.current);
+    };
+    check();
+    window.addEventListener('resize', check, { passive: true });
+    return () => window.removeEventListener('resize', check);
+  }, [applyProgress]);
+
+  // ── On mount: if browser restored scroll to a non-zero position,
+  //    skip the hero animation entirely so the page is usable ───────
+  useEffect(() => {
+    if (window.scrollY > 0) {
+      progressRef.current = 1;
+      mediaFullyExpandedRef.current = true;
+      applyProgress(1);
+      setMediaFullyExpanded(true);
+      setShowContent(true);
+      onScrollProgress?.(1);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ── Commit progress update (called from event handlers via RAF) ──
+  const commitProgress = useCallback((newP: number) => {
+    progressRef.current = newP;
+    applyProgress(newP);
+    onScrollProgress?.(newP);
+
+    if (newP >= 1 && !mediaFullyExpandedRef.current) {
+      mediaFullyExpandedRef.current = true;
+      setMediaFullyExpanded(true);
+      setShowContent(true);
+    } else if (newP < 0.75 && mediaFullyExpandedRef.current) {
+      // won't happen in normal flow but guard anyway
+    }
+  }, [applyProgress, onScrollProgress]);
+
+  // ── Wheel handler ────────────────────────────────────────────────
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+      if (mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= 5) {
+        mediaFullyExpandedRef.current = false;
         setMediaFullyExpanded(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        const scrollDelta = e.deltaY * 0.003;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
-        onScrollProgress?.(newProgress);
-
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
+        return;
       }
+      if (mediaFullyExpandedRef.current) return;
+
+      e.preventDefault();
+      const delta = e.deltaY * 0.003;
+      const newP = Math.min(Math.max(progressRef.current + delta, 0), 1);
+
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => commitProgress(newP));
     };
 
+    const handleScroll = () => {
+      if (!mediaFullyExpandedRef.current) window.scrollTo(0, 0);
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [commitProgress]);
+
+  // ── Touch handlers ───────────────────────────────────────────────
+  useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
+      touchStartYRef.current = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (!touchStartY) return;
-
+      if (!touchStartYRef.current) return;
       const touchY = e.touches[0].clientY;
-      const deltaY = touchStartY - touchY;
+      const deltaY = touchStartYRef.current - touchY;
 
-      if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+      if (mediaFullyExpandedRef.current && deltaY < -20 && window.scrollY <= 5) {
+        mediaFullyExpandedRef.current = false;
         setMediaFullyExpanded(false);
         e.preventDefault();
-      } else if (!mediaFullyExpanded) {
-        e.preventDefault();
-        // Reduced sensitivity so users see the full animation (was 0.026/0.018)
-        const scrollFactor = deltaY < 0 ? 0.005 : 0.004;
-        const scrollDelta = deltaY * scrollFactor;
-        const newProgress = Math.min(
-          Math.max(scrollProgress + scrollDelta, 0),
-          1
-        );
-        setScrollProgress(newProgress);
-        onScrollProgress?.(newProgress);
-
-        if (newProgress >= 1) {
-          setMediaFullyExpanded(true);
-          setShowContent(true);
-        } else if (newProgress < 0.75) {
-          setShowContent(false);
-        }
-
-        setTouchStartY(touchY);
+        touchStartYRef.current = touchY;
+        return;
       }
+      if (mediaFullyExpandedRef.current) return;
+
+      e.preventDefault();
+      const factor = deltaY < 0 ? 0.005 : 0.004;
+      const newP = Math.min(Math.max(progressRef.current + deltaY * factor, 0), 1);
+
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => commitProgress(newP));
+
+      touchStartYRef.current = touchY;
     };
 
-    const handleTouchEnd = (): void => {
-      setTouchStartY(0);
-    };
+    const handleTouchEnd = () => { touchStartYRef.current = 0; };
 
-    const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
-        window.scrollTo(0, 0);
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel as unknown as EventListener, {
-      passive: false,
-    });
-    window.addEventListener('scroll', handleScroll as EventListener);
-    window.addEventListener(
-      'touchstart',
-      handleTouchStart as unknown as EventListener,
-      { passive: false }
-    );
-    window.addEventListener(
-      'touchmove',
-      handleTouchMove as unknown as EventListener,
-      { passive: false }
-    );
-    window.addEventListener('touchend', handleTouchEnd as EventListener);
-
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove',  handleTouchMove,  { passive: false });
+    window.addEventListener('touchend',   handleTouchEnd,   { passive: true });
     return () => {
-      window.removeEventListener(
-        'wheel',
-        handleWheel as unknown as EventListener
-      );
-      window.removeEventListener('scroll', handleScroll as EventListener);
-      window.removeEventListener(
-        'touchstart',
-        handleTouchStart as unknown as EventListener
-      );
-      window.removeEventListener(
-        'touchmove',
-        handleTouchMove as unknown as EventListener
-      );
-      window.removeEventListener('touchend', handleTouchEnd as EventListener);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove',  handleTouchMove);
+      window.removeEventListener('touchend',   handleTouchEnd);
     };
-  }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+  }, [commitProgress]);
 
+  // ── Hash change (skip animation) ────────────────────────────────
   useEffect(() => {
-    const handleHashChange = (): void => {
+    const handleHashChange = () => {
+      progressRef.current = 1;
+      applyProgress(1);
+      mediaFullyExpandedRef.current = true;
       setMediaFullyExpanded(true);
       setShowContent(true);
       onScrollProgress?.(1);
     };
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-  }, [onScrollProgress]);
+  }, [applyProgress, onScrollProgress]);
 
-  useEffect(() => {
-    const checkIfMobile = (): void => {
-      setIsMobileState(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-
-    return () => window.removeEventListener('resize', checkIfMobile);
-  }, []);
-
-  // Mobile: start smaller so the initial box fits the viewport (420px > 390px iPhone)
-  const mediaWidth = isMobileState
-    ? 260 + scrollProgress * 220   // 260px → 480px (capped by maxWidth: 95vw)
-    : 420 + scrollProgress * 400;  // 420px → 820px on desktop
-  const mediaHeight = isMobileState
-    ? 300 + scrollProgress * 180   // 300px → 480px
-    : 480 + scrollProgress * 100;
-  // Reduce text slide distance on mobile to avoid triggering horizontal overflow
-  const textTranslateX = scrollProgress * (isMobileState ? 50 : 150);
-
-  const firstWord = title ? title.split(' ')[0] : '';
+  const firstWord   = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
 
   return (
-    <div
-      ref={sectionRef}
-      className='transition-colors duration-700 ease-in-out overflow-x-hidden'
-    >
+    <div className='overflow-x-hidden'>
+      {/* ── Scroll progress bar ─────────────────────────────────── */}
+      <div
+        ref={progressBarWrapRef}
+        className='fixed top-0 left-0 right-0 z-[100] h-[2px] pointer-events-none'
+      >
+        <div
+          ref={progressBarRef}
+          className='h-full'
+          style={{
+            width: '0%',
+            background: 'linear-gradient(90deg, #4A8FE0, #60a5fa)',
+            willChange: 'width',
+          }}
+        />
+      </div>
+
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
-          <motion.div
+
+          {/* ── Background photo (fades out as scroll progresses) ── */}
+          <div
+            ref={bgPhotoRef}
             className='absolute inset-0 z-0 h-full'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 - scrollProgress }}
-            transition={{ duration: 0.1 }}
+            style={{ opacity: 1, willChange: 'opacity' }}
           >
             <Image
               src={bgImageSrc}
@@ -210,47 +257,47 @@ const ScrollExpandMedia = ({
               width={1920}
               height={1080}
               className='w-full h-full'
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center',
-              }}
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
               priority
             />
             <div className='absolute inset-0 bg-black/50' />
-          </motion.div>
+          </div>
 
-          {/* CPU Architecture — fades in as bg photo fades out */}
-          <motion.div
+          {/* ── CPU Architecture (fades in as bg photo fades out) ── */}
+          <div
+            ref={cpuBgRef}
             className='absolute inset-0 z-0 flex items-center justify-center bg-[#07101C]'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: scrollProgress }}
-            transition={{ duration: 0.1 }}
+            style={{ opacity: 0, willChange: 'opacity' }}
           >
             <CpuArchitecture
-              text="ENTEG"
-              width="100%"
-              height="100%"
-              preserveAspectRatio="xMidYMid slice"
-              className="text-gray-200"
+              text='ENTEG'
+              width='100%'
+              height='100%'
+              preserveAspectRatio='xMidYMid slice'
+              className='text-gray-200'
             />
-          </motion.div>
+          </div>
 
           <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
             <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative'>
-              {/* Expanding media */}
+
+              {/* ── Expanding media box ─────────────────────────── */}
               <motion.div
-                className='absolute z-0 rounded-2xl overflow-hidden transition-none'
+                className='absolute z-0 rounded-2xl overflow-hidden'
                 style={{
                   top: '50%',
                   left: '50%',
                   translateX: '-50%',
                   translateY: '-50%',
-                  width: `${mediaWidth}px`,
-                  height: `${mediaHeight}px`,
+                  // JS will update these; CSS vars as initial fallback
+                  // (isMobile detection runs after mount so start with desktop defaults)
+                  width: 'min(420px, 95vw)',
+                  height: 'min(480px, 85vh)',
                   maxWidth: '95vw',
                   maxHeight: '85vh',
-                  boxShadow: 'none',
+                  willChange: 'width, height',
                 }}
+                ref={mediaBoxRef}
                 initial={{ opacity: 0, scale: 0.88 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
@@ -285,12 +332,6 @@ const ScrollExpandMedia = ({
                       allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
                       allowFullScreen
                     />
-                    <motion.div
-                      className='absolute inset-0 bg-black/30 rounded-xl'
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
-                    />
                   </div>
                 ) : (
                   <div className='relative w-full h-full pointer-events-none'>
@@ -307,19 +348,13 @@ const ScrollExpandMedia = ({
                       disablePictureInPicture
                       disableRemotePlayback
                     />
-                    <motion.div
-                      className='absolute inset-0 bg-black/30'
-                      initial={{ opacity: 0.7 }}
-                      animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
-                      transition={{ duration: 0.2 }}
-                    />
                   </div>
                 )}
               </motion.div>
 
-              {/* First word — anchored to top, slides left */}
+              {/* ── First word — slides left on scroll ─────────── */}
               <motion.div
-                className={`absolute top-[18%] left-0 right-0 flex justify-center z-10 transition-none ${
+                className={`absolute top-[18%] left-0 right-0 flex justify-center z-10 ${
                   textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
                 }`}
                 initial={{ opacity: 0, x: -60 }}
@@ -327,16 +362,17 @@ const ScrollExpandMedia = ({
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
               >
                 <h1
-                  className='font-headline text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white transition-none drop-shadow-lg'
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  ref={firstWordRef}
+                  className='font-headline text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white drop-shadow-lg'
+                  style={{ willChange: 'transform' }}
                 >
                   {firstWord}
                 </h1>
               </motion.div>
 
-              {/* Second word — anchored to bottom, slides right */}
+              {/* ── Second word — slides right on scroll ────────── */}
               <motion.div
-                className={`absolute bottom-[18%] left-0 right-0 flex justify-center z-10 transition-none ${
+                className={`absolute bottom-[18%] left-0 right-0 flex justify-center z-10 ${
                   textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
                 }`}
                 initial={{ opacity: 0, x: 60 }}
@@ -344,19 +380,23 @@ const ScrollExpandMedia = ({
                 transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
               >
                 <h1
-                  className='font-headline text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white transition-none drop-shadow-lg'
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  ref={secondWordRef}
+                  className='font-headline text-4xl md:text-5xl lg:text-6xl font-bold uppercase tracking-tight text-white drop-shadow-lg'
+                  style={{ willChange: 'transform' }}
                 >
                   {restOfTitle}
                 </h1>
               </motion.div>
 
-              {/* Date + scroll hint — below the media box */}
-              <div className='absolute bottom-[8%] left-0 right-0 flex flex-col items-center gap-1.5 z-10'>
+              {/* ── Date + scroll hint ──────────────────────────── */}
+              <div
+                ref={hintRef}
+                className='absolute bottom-[8%] left-0 right-0 flex flex-col items-center gap-2 z-10'
+                style={{ opacity: 1 }}
+              >
                 {date && (
                   <motion.p
                     className='text-xs font-medium tracking-widest uppercase text-white/60 drop-shadow'
-                    style={{ transform: `translateX(-${textTranslateX * 0.5}vw)` }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
@@ -365,20 +405,36 @@ const ScrollExpandMedia = ({
                   </motion.p>
                 )}
                 {scrollToExpand && (
-                  <motion.p
-                    className='text-white/40 text-xs tracking-wider drop-shadow'
-                    style={{ transform: `translateX(${textTranslateX * 0.5}vw)` }}
+                  <motion.div
+                    className='flex flex-col items-center gap-1.5'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
+                    transition={{ duration: 0.6, delay: 0.9 }}
                   >
-                    {scrollToExpand}
-                  </motion.p>
+                    <p className='text-white/50 text-xs tracking-wider drop-shadow'>
+                      {scrollToExpand}
+                    </p>
+                    <svg
+                      className='animate-scroll-bounce'
+                      width='16'
+                      height='10'
+                      viewBox='0 0 16 10'
+                      fill='none'
+                    >
+                      <path
+                        d='M1 1L8 8L15 1'
+                        stroke='rgba(255,255,255,0.4)'
+                        strokeWidth='1.5'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      />
+                    </svg>
+                  </motion.div>
                 )}
               </div>
             </div>
 
-            {/* Children — fade in after full expansion */}
+            {/* ── Page content — fades in after full expansion ─── */}
             <motion.section
               className='flex flex-col w-full px-6 py-12 md:px-16 lg:py-20'
               initial={{ opacity: 0 }}

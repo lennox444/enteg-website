@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import { I18nProvider } from "@/lib/i18n-context";
@@ -16,6 +16,12 @@ const barlowCondensed = Barlow_Condensed({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   title: "Enteg GmbH – Zertifiziertes Elektrorecycling seit 2026",
   description:
@@ -25,12 +31,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
-  },
-  // Proper mobile viewport: never disable zoom, cover iPhone notch/Dynamic Island
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    viewportFit: "cover",
   },
 };
 

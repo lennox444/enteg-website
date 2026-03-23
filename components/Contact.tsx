@@ -56,8 +56,8 @@ export default function Contact() {
   };
 
   const inputClass =
-    "w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-brand-gray-dark text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-blue/40 focus:border-brand-blue transition-all";
-  const errorClass = "mt-0.5 text-red-500 text-xs";
+    "w-full rounded-xl border border-gray-200 bg-white px-3.5 py-3 text-brand-gray-dark text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-blue/30 focus:border-brand-blue transition-all duration-200 min-h-[44px]";
+  const errorClass = "mt-1 text-red-500 text-xs flex items-center gap-1";
 
   const infoItems = [
     { icon: MapPin, label: t.contact.info.addressLabel, value: t.contact.info.address, href: "https://maps.google.com/?q=Hoppenmeer+9A+33129+Delbrück" },
@@ -67,7 +67,7 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-16 px-4 bg-bg-section border-t-2 border-brand-blue/15">
+    <section id="contact" className="py-20 px-4 bg-bg-section border-t-2 border-brand-blue/15">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 lg:gap-8 items-stretch">
 
@@ -175,8 +175,8 @@ export default function Contact() {
                   <button
                     ref={submitBtnRef}
                     type="submit"
-                    className="w-full text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 hover:-translate-y-0.5 shadow-md text-sm"
-                    style={{ background: "#07101C", boxShadow: "0 4px 14px rgba(7,16,28,0.35)" }}
+                    className="w-full text-white font-semibold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] shadow-lg text-sm min-h-[52px]"
+                    style={{ background: "#07101C", boxShadow: "0 4px 20px rgba(7,16,28,0.4), 0 1px 0 rgba(255,255,255,0.04) inset" }}
                     onMouseEnter={e => (e.currentTarget.style.background = "#111f30")}
                     onMouseLeave={e => (e.currentTarget.style.background = "#07101C")}
                   >
