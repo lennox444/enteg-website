@@ -46,8 +46,11 @@ export default function Navbar() {
           ? "shadow-[0_1px_12px_rgba(0,0,0,0.08)] py-2"
           : "border-b border-gray-100 py-3"
       }`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        style={{ paddingLeft: "max(1rem, env(safe-area-inset-left))", paddingRight: "max(1rem, env(safe-area-inset-right))" }}
+      >
         <div className="flex items-center justify-between h-14">
 
           {/* Logo */}

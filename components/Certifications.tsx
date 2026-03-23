@@ -85,7 +85,7 @@ export default function Certifications() {
           </div>
 
           {/* ── RIGHT: Image Accordion ── */}
-          <div className="w-full lg:w-3/5 overflow-x-auto pb-2">
+          <div className="w-full lg:w-3/5 overflow-x-hidden">
             <ImageAccordion
               items={certs}
               defaultActive={0}

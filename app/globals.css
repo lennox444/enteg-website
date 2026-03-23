@@ -9,12 +9,22 @@
 
 html {
   scroll-behavior: smooth;
+  /* Match hero dark bg so iOS rubber-band overscroll shows dark, not white */
+  background-color: #07101C;
+  /* Prevent horizontal scroll globally */
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-inter);
   background-color: #f8f9fa;
   color: #2d2d2d;
+  /* Prevent horizontal overflow on all devices */
+  overflow-x: hidden;
+  /* Suppress iOS Safari elastic overscroll bounce at top/bottom */
+  overscroll-behavior-y: none;
+  /* Smoother momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 .font-headline {

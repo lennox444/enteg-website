@@ -20,9 +20,13 @@ const AccordionItem = ({ item, isActive, onMouseEnter, onClick }: AccordionItemP
   return (
     <div
       className={`
-        relative h-[480px] rounded-2xl overflow-hidden cursor-pointer flex-shrink-0
+        relative rounded-2xl overflow-hidden cursor-pointer flex-shrink-0
         transition-all duration-700 ease-in-out
-        ${isActive ? "w-[340px]" : "w-[58px]"}
+        h-[320px] sm:h-[400px] md:h-[480px]
+        ${isActive
+          ? "w-[180px] xs:w-[200px] sm:w-[260px] md:w-[340px]"
+          : "w-[30px] xs:w-[32px] sm:w-[44px] md:w-[58px]"
+        }
       `}
       onMouseEnter={onMouseEnter}
       onClick={onClick}
@@ -86,7 +90,7 @@ export function ImageAccordion({ items, defaultActive = 0, onItemClick }: ImageA
   const [activeIndex, setActiveIndex] = useState(defaultActive);
 
   return (
-    <div className="flex flex-row items-stretch justify-center gap-2">
+    <div className="flex flex-row items-stretch justify-center gap-1 sm:gap-1.5 md:gap-2">
       {items.map((item, index) => (
         <AccordionItem
           key={item.id}

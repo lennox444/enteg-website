@@ -92,7 +92,8 @@ const ScrollExpandMedia = ({
         e.preventDefault();
       } else if (!mediaFullyExpanded) {
         e.preventDefault();
-        const scrollFactor = deltaY < 0 ? 0.026 : 0.018;
+        // Reduced sensitivity so users see the full animation (was 0.026/0.018)
+        const scrollFactor = deltaY < 0 ? 0.005 : 0.004;
         const scrollDelta = deltaY * scrollFactor;
         const newProgress = Math.min(
           Math.max(scrollProgress + scrollDelta, 0),
@@ -177,9 +178,15 @@ const ScrollExpandMedia = ({
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
-  const mediaWidth = 420 + scrollProgress * (isMobileState ? 200 : 400);
-  const mediaHeight = 480 + scrollProgress * (isMobileState ? 60 : 100);
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+  // Mobile: start smaller so the initial box fits the viewport (420px > 390px iPhone)
+  const mediaWidth = isMobileState
+    ? 260 + scrollProgress * 220   // 260px → 480px (capped by maxWidth: 95vw)
+    : 420 + scrollProgress * 400;  // 420px → 820px on desktop
+  const mediaHeight = isMobileState
+    ? 300 + scrollProgress * 180   // 300px → 480px
+    : 480 + scrollProgress * 100;
+  // Reduce text slide distance on mobile to avoid triggering horizontal overflow
+  const textTranslateX = scrollProgress * (isMobileState ? 50 : 150);
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
@@ -202,7 +209,7 @@ const ScrollExpandMedia = ({
               alt='Background'
               width={1920}
               height={1080}
-              className='w-screen h-screen'
+              className='w-full h-full'
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center',

@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        // Extra-small breakpoint for very narrow phones (< 375px)
+        xs: "375px",
+      },
       colors: {
         "brand-gray": "#5A5A5A",
         "brand-gray-dark": "#2D2D2D",
