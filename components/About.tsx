@@ -37,19 +37,9 @@ export default function About() {
               <div
                 className="h-72 lg:h-[420px] bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                 style={{
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=85')",
+                  backgroundImage: "url('/enteg-building.svg')",
                 }}
               />
-              {/* Bottom label */}
-              <div className="absolute bottom-0 left-0 right-0 bg-bg-dark/90 backdrop-blur-sm px-5 py-3.5 flex items-center justify-between">
-                <span className="text-white/50 text-xs uppercase tracking-widest">
-                  {t.about.locationLabel}
-                </span>
-                <span className="font-headline text-brand-blue font-bold text-sm uppercase">
-                  Hoppenmeer 9A
-                </span>
-              </div>
             </div>
           </div>
 
