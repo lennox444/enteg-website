@@ -52,7 +52,7 @@ export default function Navbar() {
 
           {/* Logo */}
           <a href="#home" className="flex-shrink-0">
-            <EntegLogoAnimated className="h-12 w-auto" />
+            <EntegLogoAnimated className="h-12 w-auto" noAnimation />
           </a>
 
           {/* Desktop nav */}

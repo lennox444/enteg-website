@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-export function EntegLogoAnimated({ className, light, scrollProgress }: { className?: string; light?: boolean; scrollProgress?: number }) {
+export function EntegLogoAnimated({ className, light, scrollProgress, noAnimation }: { className?: string; light?: boolean; scrollProgress?: number; noAnimation?: boolean }) {
   const subtextVisible = (scrollProgress ?? 1) >= 0.7;
   // In hero (scrollProgress defined): always white. In footer/navbar: original gray.
   const letterColor = scrollProgress !== undefined ? "#ffffff" : (light ? "#d0d0d0" : "#666666");
@@ -129,7 +129,7 @@ export function EntegLogoAnimated({ className, light, scrollProgress }: { classN
         transition={{ type: "spring", stiffness: 280, damping: 22 }}
       >
         <path
-          className={scrollProgress !== undefined ? undefined : "subtext-blue"}
+          className={scrollProgress !== undefined || noAnimation ? undefined : "subtext-blue"}
           fill={scrollProgress !== undefined ? "#ffffff" : "#477DCF"}
           d="M449.431,351.232h3.928v-5.116c0-3.308,1.602-4.884,4.212-4.884h0.207v-4.109
           c-2.326-0.103-3.618,1.137-4.419,3.049v-2.791h-3.928V351.232z M436.768,343.221c0.31-1.783,1.37-2.946,2.998-2.946
