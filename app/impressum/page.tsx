@@ -1,8 +1,116 @@
-import LegalLayout from "@/components/LegalLayout";
+"use client";
 
-export const metadata = { title: "Impressum – Enteg GmbH" };
+import LegalLayout from "@/components/LegalLayout";
+import { useTranslation } from "@/lib/i18n-context";
 
 export default function ImpressumPage() {
+  const { locale } = useTranslation();
+
+  if (locale === "en") {
+    return (
+      <LegalLayout title="Legal Notice" badge="Legal">
+        <section>
+          <h2>Information pursuant to § 5 TMG</h2>
+          <p>
+            <strong>Enteg GmbH</strong><br />
+            Hoppenmeer 9A<br />
+            33129 Delbrück<br />
+            Germany
+          </p>
+        </section>
+
+        <section>
+          <h2>Contact</h2>
+          <p>
+            Phone: <a href="tel:+4952506099890">+49 5250 609989-0</a><br />
+            Email: <a href="mailto:info@enteg.de">info@enteg.de</a>
+          </p>
+        </section>
+
+        <section>
+          <h2>Represented by</h2>
+          <p>Managing Director: [Name des Geschäftsführers]</p>
+        </section>
+
+        <section>
+          <h2>Commercial Register</h2>
+          <p>
+            Register Court: Amtsgericht Paderborn<br />
+            Registration Number: HRB [Nummer]
+          </p>
+        </section>
+
+        <section>
+          <h2>VAT ID</h2>
+          <p>
+            VAT identification number pursuant to § 27a UStG:<br />
+            DE [Nummer]
+          </p>
+        </section>
+
+        <section>
+          <h2>Economic ID</h2>
+          <p>Economic identification number pursuant to § 139c AO: [Nummer]</p>
+        </section>
+
+        <section>
+          <h2>Professional Regulations</h2>
+          <p>
+            Enteg GmbH is certified as a licensed waste disposal company and is subject to the
+            relevant waste management regulations, in particular the Circular Economy Act (KrWG)
+            and the Electrical and Electronic Equipment Act (ElektroG).
+          </p>
+        </section>
+
+        <section>
+          <h2>Dispute Resolution</h2>
+          <p>
+            The European Commission provides a platform for online dispute resolution (ODR):{" "}
+            <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer">
+              https://ec.europa.eu/consumers/odr/
+            </a>
+            .<br />
+            Our email address can be found in the legal notice above.
+          </p>
+          <p>
+            We are not willing or obliged to participate in dispute resolution proceedings before a
+            consumer arbitration board.
+          </p>
+        </section>
+
+        <section>
+          <h2>Liability for Content</h2>
+          <p>
+            As a service provider, we are responsible for our own content on these pages in
+            accordance with § 7(1) TMG and general law. According to §§ 8 to 10 TMG, however, we
+            are not obligated as a service provider to monitor transmitted or stored third-party
+            information or to investigate circumstances that indicate illegal activity.
+          </p>
+        </section>
+
+        <section>
+          <h2>Liability for Links</h2>
+          <p>
+            Our website contains links to external third-party websites over whose content we have
+            no influence. We therefore cannot accept any liability for this external content. The
+            respective provider or operator of the linked pages is always responsible for the
+            content of those pages.
+          </p>
+        </section>
+
+        <section>
+          <h2>Copyright</h2>
+          <p>
+            The content and works created by the site operators on these pages are subject to
+            German copyright law. Duplication, processing, distribution, and any form of
+            commercialisation of such material beyond the scope of the copyright law shall require
+            the prior written consent of its respective author or creator.
+          </p>
+        </section>
+      </LegalLayout>
+    );
+  }
+
   return (
     <LegalLayout title="Impressum" badge="Rechtliches">
       <section>

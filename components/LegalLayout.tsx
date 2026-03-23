@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "@/lib/i18n-context";
 
 const BLUE = "#4A8FE0";
 const BG   = "#07101C";
@@ -14,6 +15,7 @@ export default function LegalLayout({
   badge: string;
   children: React.ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen" style={{ background: "#f8f9fa" }}>
 
@@ -36,18 +38,12 @@ export default function LegalLayout({
           {/* Back link */}
           <a
             href="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-8 transition-colors duration-200 hover:text-white"
+            className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-8 transition-colors duration-200 hover:text-white w-fit"
             style={{ color: "rgba(74,143,224,0.7)" }}
           >
             <ArrowLeft size={13} />
-            Zurück zur Startseite
+            {t.legal.backToHome}
           </a>
-
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2.5 mb-4" style={{ color: BLUE }}>
-            <span className="block w-5 h-px" style={{ background: BLUE }} />
-            <span className="text-[10px] font-bold uppercase tracking-[0.26em]">{badge}</span>
-          </div>
 
           {/* Title */}
           <h1
@@ -71,15 +67,15 @@ export default function LegalLayout({
         className="border-t py-6 text-center"
         style={{ borderColor: "rgba(0,0,0,0.07)" }}
       >
-        <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-4xl mx-auto px-4 flex flex-row flex-wrap items-center justify-center sm:justify-between gap-x-6 gap-y-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="Enteg GmbH" className="h-7 w-auto opacity-60" />
           <div className="flex items-center gap-5 text-xs" style={{ color: "#9ca3af" }}>
-            <a href="/" className="hover:text-brand-blue transition-colors">Startseite</a>
+            <a href="/" className="hover:text-brand-blue transition-colors">{t.nav.home}</a>
             <span>·</span>
-            <a href="/impressum" className="hover:text-brand-blue transition-colors">Impressum</a>
+            <a href="/impressum" className="hover:text-brand-blue transition-colors">{t.footer.imprint}</a>
             <span>·</span>
-            <a href="/datenschutz" className="hover:text-brand-blue transition-colors">Datenschutz</a>
+            <a href="/datenschutz" className="hover:text-brand-blue transition-colors">{t.footer.privacy}</a>
           </div>
         </div>
       </div>

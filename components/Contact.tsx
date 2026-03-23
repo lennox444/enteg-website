@@ -235,7 +235,7 @@ export default function Contact() {
                 className="w-full h-full border-0 min-h-[160px]"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Enteg Standort Delbrück"
+                title={t.contact.mapTitle}
               />
             </div>
           </div>

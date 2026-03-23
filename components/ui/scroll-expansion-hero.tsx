@@ -157,6 +157,16 @@ const ScrollExpandMedia = ({
   }, [scrollProgress, mediaFullyExpanded, touchStartY]);
 
   useEffect(() => {
+    const handleHashChange = (): void => {
+      setMediaFullyExpanded(true);
+      setShowContent(true);
+      onScrollProgress?.(1);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [onScrollProgress]);
+
+  useEffect(() => {
     const checkIfMobile = (): void => {
       setIsMobileState(window.innerWidth < 768);
     };

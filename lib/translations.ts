@@ -19,7 +19,13 @@ export const translations = {
       cta2: "Kontakt aufnehmen",
       heroTitle: "RECYCLING POWER",
       heroBadge: "Enteg GmbH · Delbrück · seit 2026",
+      classicBadge: "Seit 2026 · Delbrück · Recycling Power",
       scrollToExpand: "↓ Scrollen zum Entdecken",
+      trustPoints: [
+        "ISO 9001 & ISO 14001 zertifiziert",
+        "Eigene Schredderanlage & Fahrzeugflotte",
+        "Lückenlose Entsorgungsnachweise",
+      ],
     },
     stats: {
       years:    { value: "30+",  label: "Jahre Erfahrung",     detail: "Branchenerfahrung in der Region" },
@@ -162,6 +168,7 @@ export const translations = {
       title: "Kontakt aufnehmen",
       subtitle: "Senden Sie uns eine Anfrage – wir melden uns innerhalb von 24 Stunden.",
       badge: "Jetzt anfragen",
+      mapTitle: "Enteg Standort Delbrück",
       form: {
         salutation: "Anrede",
         salutationPlaceholder: "Bitte wählen",
@@ -200,6 +207,9 @@ export const translations = {
       privacy: "Datenschutz",
       copyright: "© 2025 Enteg GmbH. Alle Rechte vorbehalten.",
     },
+    legal: {
+      backToHome: "Zurück zur Startseite",
+    },
   },
 
   en: {
@@ -220,7 +230,13 @@ export const translations = {
       cta2: "Get in Touch",
       heroTitle: "RECYCLING POWER",
       heroBadge: "Enteg GmbH · Delbrück · since 2026",
+      classicBadge: "Since 2026 · Delbrück · Recycling Power",
       scrollToExpand: "↓ Scroll to Discover",
+      trustPoints: [
+        "ISO 9001 & ISO 14001 certified",
+        "Own shredding plant & vehicle fleet",
+        "Complete disposal documentation",
+      ],
     },
     stats: {
       years:    { value: "30+",  label: "Years of Experience",   detail: "Industry experience in the region" },
@@ -363,6 +379,7 @@ export const translations = {
       title: "Get in Touch",
       subtitle: "Send us a request – we'll respond within 24 hours.",
       badge: "Send a Request",
+      mapTitle: "Enteg Location Delbrück",
       form: {
         salutation: "Salutation",
         salutationPlaceholder: "Please select",
@@ -400,6 +417,9 @@ export const translations = {
       imprint: "Legal Notice",
       privacy: "Privacy Policy",
       copyright: "© 2025 Enteg GmbH. All rights reserved.",
+    },
+    legal: {
+      backToHome: "Back to Homepage",
     },
   },
 };

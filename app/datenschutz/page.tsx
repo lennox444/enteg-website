@@ -1,8 +1,253 @@
-import LegalLayout from "@/components/LegalLayout";
+"use client";
 
-export const metadata = { title: "Datenschutzerklärung – Enteg GmbH" };
+import LegalLayout from "@/components/LegalLayout";
+import { useTranslation } from "@/lib/i18n-context";
 
 export default function DatenschutzPage() {
+  const { locale } = useTranslation();
+
+  if (locale === "en") {
+    return (
+      <LegalLayout title="Privacy Policy" badge="Privacy">
+        <section>
+          <h2>1. Privacy at a Glance</h2>
+          <h3>General Information</h3>
+          <p>
+            The following notes provide a simple overview of what happens to your personal data
+            when you visit this website. Personal data is any data by which you can be personally
+            identified.
+          </p>
+          <h3>Data Collection on This Website</h3>
+          <p>
+            <strong>Who is responsible for data collection on this website?</strong><br />
+            Data processing on this website is carried out by the website operator. You can find
+            their contact details in the section "Notice on the Responsible Party" in this privacy
+            policy.
+          </p>
+          <p>
+            <strong>How do we collect your data?</strong><br />
+            Your data is collected in part by you providing it to us (e.g. data you enter into a
+            contact form). Other data is collected automatically or with your consent when you
+            visit the website by our IT systems. This is primarily technical data (e.g. internet
+            browser, operating system, or time of page access).
+          </p>
+          <p>
+            <strong>What do we use your data for?</strong><br />
+            Part of the data is collected to ensure error-free provision of the website. Other data
+            may be used to analyse your user behaviour.
+          </p>
+          <p>
+            <strong>What rights do you have regarding your data?</strong><br />
+            You have the right at any time to receive information free of charge about the origin,
+            recipient, and purpose of your stored personal data. You also have the right to request
+            correction or deletion of this data. If you have given consent to data processing, you
+            can revoke this consent at any time for the future. You also have the right to request
+            restriction of the processing of your personal data under certain circumstances.
+          </p>
+        </section>
+
+        <section>
+          <h2>2. Hosting</h2>
+          <p>We host the content of our website with the following provider:</p>
+          <h3>External Hosting</h3>
+          <p>
+            This website is hosted externally. The personal data collected on this website is
+            stored on the servers of the host(s). This may primarily include IP addresses, contact
+            requests, meta and communication data, contract data, contact details, names, website
+            accesses, and other data generated via a website.
+          </p>
+          <p>
+            External hosting is carried out for the purpose of fulfilling contracts with our
+            potential and existing customers (Art. 6(1)(b) GDPR) and in the interest of a secure,
+            fast, and efficient provision of our online offering by a professional provider
+            (Art. 6(1)(f) GDPR).
+          </p>
+          <p>
+            Where appropriate consent has been requested, processing is carried out exclusively on
+            the basis of Art. 6(1)(a) GDPR and § 25(1) TTDSG, insofar as the consent includes the
+            storage of cookies or access to information on the user's device (e.g. device
+            fingerprinting) within the meaning of the TTDSG.
+          </p>
+        </section>
+
+        <section>
+          <h2>3. General Notes and Mandatory Information</h2>
+          <h3>Data Protection</h3>
+          <p>
+            The operators of these pages take the protection of your personal data very seriously.
+            We treat your personal data confidentially and in accordance with statutory data
+            protection regulations and this privacy policy.
+          </p>
+          <h3>Notice on the Responsible Party</h3>
+          <p>The responsible party for data processing on this website is:</p>
+          <p>
+            Enteg GmbH<br />
+            Hoppenmeer 9A<br />
+            33129 Delbrück<br />
+            <br />
+            Phone: +49 5250 609989-0<br />
+            Email: info@enteg.de
+          </p>
+          <p>
+            The responsible party is the natural or legal person who alone or jointly with others
+            decides on the purposes and means of processing personal data.
+          </p>
+          <h3>Storage Duration</h3>
+          <p>
+            Unless a more specific storage period is stated within this privacy policy, your
+            personal data will remain with us until the purpose for data processing no longer
+            applies. If you assert a legitimate request for deletion or revoke consent to data
+            processing, your data will be deleted unless we have other legally permissible reasons
+            for storing your personal data (e.g. tax or commercial retention periods); in the
+            latter case, deletion will occur after these reasons no longer apply.
+          </p>
+          <h3>Revocation of Your Consent to Data Processing</h3>
+          <p>
+            Many data processing operations are only possible with your explicit consent. You can
+            revoke consent you have already given at any time. The legality of the data processing
+            carried out prior to revocation remains unaffected by the revocation.
+          </p>
+          <h3>Right to Lodge a Complaint with the Competent Supervisory Authority</h3>
+          <p>
+            In the event of breaches of the GDPR, data subjects have the right to lodge a
+            complaint with a supervisory authority, in particular in the Member State of their
+            habitual residence, place of work, or the place of the alleged breach. This right to
+            lodge a complaint is without prejudice to other administrative or judicial remedies.
+          </p>
+          <p>
+            The competent supervisory authority for North Rhine-Westphalia is:<br />
+            State Commissioner for Data Protection and Freedom of Information NRW<br />
+            Postfach 20 04 44<br />
+            40102 Düsseldorf<br />
+            <a href="https://www.ldi.nrw.de" target="_blank" rel="noopener noreferrer">www.ldi.nrw.de</a>
+          </p>
+          <h3>Right to Data Portability</h3>
+          <p>
+            You have the right to have data which we process based on your consent or in
+            fulfilment of a contract automatically delivered to yourself or to a third party in a
+            standard, machine-readable format. If you require direct transfer of data to another
+            responsible party, this will only be done to the extent technically feasible.
+          </p>
+          <h3>Information, Correction and Deletion</h3>
+          <p>
+            Within the scope of the applicable statutory provisions, you have the right at any time
+            to free information about your stored personal data, their origin and recipients, and
+            the purpose of data processing and, if applicable, a right to correction or deletion of
+            this data. For this purpose, as well as for further questions on the subject of personal
+            data, you can contact us at any time.
+          </p>
+          <h3>Right to Restriction of Processing</h3>
+          <p>
+            You have the right to request restriction of the processing of your personal data. You
+            can contact us at any time for this purpose. The right to restriction of processing
+            exists in the following cases:
+          </p>
+          <ul>
+            <li>
+              If you dispute the accuracy of your personal data stored by us, we usually need time
+              to verify this.
+            </li>
+            <li>
+              If the processing of your personal data was/is unlawful, you can request restriction
+              of data processing instead of deletion.
+            </li>
+            <li>
+              If we no longer need your personal data, but you need it to exercise, defend, or
+              assert legal claims, you have the right to request restriction of the processing of
+              your personal data instead of deletion.
+            </li>
+            <li>
+              If you have lodged an objection pursuant to Art. 21(1) GDPR, a balance must be
+              struck between your interests and ours.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>4. Data Collection on This Website</h2>
+          <h3>Server Log Files</h3>
+          <p>
+            The provider of the pages automatically collects and stores information in so-called
+            server log files, which your browser automatically transmits to us. These are:
+          </p>
+          <ul>
+            <li>Browser type and browser version</li>
+            <li>Operating system used</li>
+            <li>Referrer URL</li>
+            <li>Hostname of the accessing computer</li>
+            <li>Time of the server request</li>
+            <li>IP address</li>
+          </ul>
+          <p>This data is not merged with other data sources.</p>
+          <p>
+            This data is collected on the basis of Art. 6(1)(f) GDPR. The website operator has a
+            legitimate interest in the technically error-free presentation and optimisation of its
+            website – for this purpose, server log files must be recorded.
+          </p>
+          <h3>Contact Form</h3>
+          <p>
+            If you send us enquiries via the contact form, your details from the enquiry form,
+            including the contact details you provide there, will be stored by us for the purpose
+            of processing the enquiry and in the event of follow-up questions. We do not pass on
+            this data without your consent.
+          </p>
+          <p>
+            The processing of this data is based on Art. 6(1)(b) GDPR if your request is related
+            to the fulfilment of a contract or is necessary for the implementation of pre-contractual
+            measures. In all other cases, the processing is based on our legitimate interest in the
+            effective processing of the enquiries directed to us (Art. 6(1)(f) GDPR) or on your
+            consent (Art. 6(1)(a) GDPR) if this was requested; consent can be revoked at any time.
+          </p>
+          <p>
+            The data you enter in the contact form will remain with us until you request us to
+            delete it, revoke your consent to storage, or the purpose for data storage no longer
+            applies (e.g. after your enquiry has been processed). Mandatory statutory provisions –
+            in particular retention periods – remain unaffected.
+          </p>
+          <h3>Enquiry by Email or Phone</h3>
+          <p>
+            If you contact us by email or phone, your enquiry including all resulting personal data
+            (name, enquiry) will be stored and processed by us for the purpose of handling your
+            request. We do not pass on this data without your consent.
+          </p>
+          <p>
+            The processing of this data is based on Art. 6(1)(b) GDPR if your request is related
+            to the fulfilment of a contract or is necessary for the implementation of pre-contractual
+            measures. In all other cases, the processing is based on our legitimate interest in the
+            effective processing of the enquiries directed to us (Art. 6(1)(f) GDPR) or on your
+            consent (Art. 6(1)(a) GDPR) if this was requested.
+          </p>
+          <p>
+            The data sent to us via contact requests will remain with us until you request deletion,
+            revoke your consent to storage, or the purpose for data storage no longer applies.
+            Mandatory statutory provisions – in particular statutory retention periods – remain
+            unaffected.
+          </p>
+          <h3>Google Maps</h3>
+          <p>
+            This page uses the Google Maps map service. The provider is Google Ireland Limited,
+            Gordon House, Barrow Street, Dublin 4, Ireland. When using Google Maps, information
+            about your use of this website, including your IP address, may be transmitted to Google.
+            This information is usually transferred to a Google server in the USA and stored there.
+          </p>
+          <p>
+            The use of Google Maps is in the interest of an attractive presentation of our online
+            offering and easy location of the places indicated by us on the website. This
+            constitutes a legitimate interest within the meaning of Art. 6(1)(f) GDPR.
+          </p>
+          <p>
+            For more information on the handling of user data, please refer to Google&apos;s
+            privacy policy:{" "}
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+              https://policies.google.com/privacy
+            </a>
+            .
+          </p>
+        </section>
+      </LegalLayout>
+    );
+  }
+
   return (
     <LegalLayout title="Datenschutz&shy;erklärung" badge="Datenschutz">
       <section>
@@ -45,9 +290,7 @@ export default function DatenschutzPage() {
 
       <section>
         <h2>2. Hosting</h2>
-        <p>
-          Wir hosten die Inhalte unserer Website bei folgendem Anbieter:
-        </p>
+        <p>Wir hosten die Inhalte unserer Website bei folgendem Anbieter:</p>
         <h3>Externes Hosting</h3>
         <p>
           Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf dieser Website
@@ -79,9 +322,7 @@ export default function DatenschutzPage() {
           Datenschutzvorschriften sowie dieser Datenschutzerklärung.
         </p>
         <h3>Hinweis zur verantwortlichen Stelle</h3>
-        <p>
-          Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:
-        </p>
+        <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
         <p>
           Enteg GmbH<br />
           Hoppenmeer 9A<br />
@@ -186,9 +427,7 @@ export default function DatenschutzPage() {
           <li>Uhrzeit der Serveranfrage</li>
           <li>IP-Adresse</li>
         </ul>
-        <p>
-          Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.
-        </p>
+        <p>Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.</p>
         <p>
           Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der
           Websitebetreiber hat ein berechtigtes Interesse an der technisch fehlerfreien Darstellung

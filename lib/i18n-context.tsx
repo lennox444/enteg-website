@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { translations, Locale, Translations } from "./translations";
 
 interface I18nContextType {
@@ -18,8 +18,17 @@ const I18nContext = createContext<I18nContextType>({
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocale] = useState<Locale>("de");
 
+  useEffect(() => {
+    const saved = localStorage.getItem("locale");
+    if (saved === "de" || saved === "en") setLocale(saved);
+  }, []);
+
   const toggleLocale = () => {
-    setLocale((prev) => (prev === "de" ? "en" : "de"));
+    setLocale((prev) => {
+      const next = prev === "de" ? "en" : "de";
+      localStorage.setItem("locale", next);
+      return next;
+    });
   };
 
   return (

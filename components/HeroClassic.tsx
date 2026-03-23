@@ -24,7 +24,7 @@ export default function Hero() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-brand-blue/10 text-brand-blue-dark rounded-full px-4 py-1.5 text-sm font-semibold mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
-              Seit 2026 · Delbrück · Recycling Power
+              {t.hero.classicBadge}
             </div>
 
             {/* Headline */}
@@ -39,11 +39,7 @@ export default function Hero() {
 
             {/* Trust points */}
             <ul className="space-y-2 mb-10">
-              {[
-                "ISO 9001 & ISO 14001 zertifiziert",
-                "Eigene Schredderanlage & Fahrzeugflotte",
-                "Lückenlose Entsorgungsnachweise",
-              ].map((point) => (
+              {t.hero.trustPoints.map((point) => (
                 <li key={point} className="flex items-center gap-2.5 text-sm text-brand-gray">
                   <CheckCircle2 size={16} className="text-brand-blue flex-shrink-0" />
                   {point}
@@ -106,7 +102,7 @@ export default function Hero() {
               </div>
               <div>
                 <div className="font-headline text-xl font-bold text-brand-gray-dark leading-none">30+</div>
-                <div className="text-xs text-brand-gray mt-0.5">Jahre Erfahrung</div>
+                <div className="text-xs text-brand-gray mt-0.5">{t.stats.years.label}</div>
               </div>
             </div>
 
