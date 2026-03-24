@@ -119,12 +119,12 @@ export default function WhyEnteg() {
         style={{ background: "radial-gradient(circle, rgba(52,211,153,0.04) 0%, transparent 62%)" }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-24">
 
         {/* ════════════════════════════════════════════════════════════
             HEADER
         ════════════════════════════════════════════════════════════ */}
-        <div className="mb-16 lg:mb-20">
+        <div className="mb-8 lg:mb-10">
 
           {/* Badge row */}
           <div className="inline-flex items-center gap-2.5 mb-6" style={{ color: BLUE }}>
@@ -195,7 +195,7 @@ export default function WhyEnteg() {
           <div
             ref={lineRef}
             className="hidden lg:block absolute z-0 pointer-events-none"
-            style={{ top: "208px", left: "12.5%", right: "12.5%", height: "3px" }}
+            style={{ top: "256px", left: "12.5%", right: "12.5%", height: "3px" }}
           >
             {/* Base dim track */}
             <div
@@ -238,7 +238,7 @@ export default function WhyEnteg() {
                   }}
                 >
                   {/* ── Image: outer Ken Burns wrapper ── */}
-                  <div className="relative w-full h-52 rounded-t-2xl overflow-hidden">
+                  <div className="relative w-full h-64 rounded-t-2xl overflow-hidden">
                     {/* Ken Burns: entry scale 1.1 → 1 */}
                     <motion.div
                       className="absolute inset-0"
@@ -287,36 +287,40 @@ export default function WhyEnteg() {
                     </motion.span>
                   </div>
 
-                  {/* ── Icon node — spring bounce pop ── */}
-                  <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 z-20 rounded-full flex items-center justify-center"
-                    style={{
-                      top: "calc(13rem - 1.625rem)",
-                      width: "3.25rem",
-                      height: "3.25rem",
-                      background: "rgba(7,16,28,1)",
-                      border: `1.5px solid rgba(74,143,224,0.45)`,
-                      boxShadow: "0 0 0 4px rgba(7,16,28,0.95), 0 0 20px rgba(74,143,224,0.16)",
-                    }}
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={inView ? { scale: 1, opacity: 1 } : {}}
-                    transition={{
-                      type: "spring",
-                      stiffness: 440,
-                      damping: 16,
-                      delay: cardDelay + 0.48,
-                    }}
-                    whileHover={{
-                      scale: 1.18,
-                      boxShadow: "0 0 0 4px rgba(7,16,28,0.95), 0 0 32px rgba(74,143,224,0.55)",
-                      transition: { duration: 0.18 },
-                    }}
+                  {/* ── Icon node — flex wrapper for true centering (avoids CSS/FM transform conflict) ── */}
+                  <div
+                    className="absolute inset-x-0 z-20 flex justify-center"
+                    style={{ top: "calc(16rem - 1.625rem)" }}
                   >
-                    <Icon size={19} color={BLUE} strokeWidth={1.5} />
-                  </motion.div>
+                    <motion.div
+                      className="rounded-full flex items-center justify-center"
+                      style={{
+                        width: "3.25rem",
+                        height: "3.25rem",
+                        background: "rgba(7,16,28,1)",
+                        border: `1.5px solid rgba(74,143,224,0.45)`,
+                        boxShadow: "0 0 0 4px rgba(7,16,28,0.95), 0 0 20px rgba(74,143,224,0.16)",
+                      }}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={inView ? { scale: 1, opacity: 1 } : {}}
+                      transition={{
+                        type: "spring",
+                        stiffness: 440,
+                        damping: 16,
+                        delay: cardDelay + 0.48,
+                      }}
+                      whileHover={{
+                        scale: 1.18,
+                        boxShadow: "0 0 0 4px rgba(7,16,28,0.95), 0 0 32px rgba(74,143,224,0.55)",
+                        transition: { duration: 0.18 },
+                      }}
+                    >
+                      <Icon size={19} color={BLUE} strokeWidth={1.5} />
+                    </motion.div>
+                  </div>
 
                   {/* ── Card body ── */}
-                  <div className="flex flex-col items-center text-center px-5 pt-10 pb-7">
+                  <div className="flex flex-col items-center text-center px-5 pt-11 pb-7">
 
                     {/* Title — clips up from behind invisible wall */}
                     <div className="overflow-hidden mb-3 w-full">

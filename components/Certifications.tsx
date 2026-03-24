@@ -32,7 +32,7 @@ export default function Certifications() {
   const next = () => setLightbox((o) => (o !== null ? (o + 1) % certs.length : null));
 
   return (
-    <section id="certifications" className="py-24 bg-white overflow-hidden">
+    <section id="certifications" className="py-10 sm:py-16 lg:py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}

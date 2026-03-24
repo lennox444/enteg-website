@@ -15,7 +15,7 @@ export default function About() {
 
   return (
     <section id="about" ref={ref} className="bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-20">
 
         {/* Section header */}
         <motion.div

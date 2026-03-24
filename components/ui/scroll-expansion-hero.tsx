@@ -134,7 +134,7 @@ const ScrollExpandMedia = ({
     }
   }, [applyProgress, onScrollProgress]);
 
-  // ── Wheel handler ────────────────────────────────────────────────
+  // ── Wheel + scroll + keyboard handlers ──────────────────────────
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (mediaFullyExpandedRef.current && e.deltaY < 0 && window.scrollY <= 5) {
@@ -153,15 +153,42 @@ const ScrollExpandMedia = ({
       rafRef.current = requestAnimationFrame(() => commitProgress(newP));
     };
 
+    // Scrollbar: translate native scroll delta into animation progress, then reset
     const handleScroll = () => {
-      if (!mediaFullyExpandedRef.current) window.scrollTo(0, 0);
+      if (mediaFullyExpandedRef.current) return;
+      const scrolled = window.scrollY;
+      if (scrolled === 0) return;
+      window.scrollTo(0, 0);
+      const newP = Math.min(Math.max(progressRef.current + scrolled * 0.003, 0), 1);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => commitProgress(newP));
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Arrow keys / Space / PageDown drive the hero animation
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (mediaFullyExpandedRef.current) return;
+      const STEP: Record<string, number> = {
+        ArrowDown: 0.06,
+        ArrowUp:   -0.06,
+        PageDown:  0.3,
+        PageUp:    -0.3,
+        ' ':       0.15,
+      };
+      const delta = STEP[e.key];
+      if (delta === undefined) return;
+      e.preventDefault();
+      const newP = Math.min(Math.max(progressRef.current + delta, 0), 1);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => commitProgress(newP));
+    };
+
+    window.addEventListener('wheel',   handleWheel,   { passive: false });
+    window.addEventListener('scroll',  handleScroll,  { passive: true });
+    window.addEventListener('keydown', handleKeyDown, { passive: false });
     return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('wheel',   handleWheel);
+      window.removeEventListener('scroll',  handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
   }, [commitProgress]);
