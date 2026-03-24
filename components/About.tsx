@@ -21,7 +21,7 @@ export default function About() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.65, ease }}
+          transition={{ duration: 0.5, ease }}
           className="flex items-end gap-6 border-b border-gray-200 pb-8 mb-14"
         >
           <h2 className="font-headline text-5xl sm:text-6xl lg:text-7xl font-bold text-brand-gray-dark uppercase leading-none">
@@ -42,7 +42,7 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.12, ease }}
+            transition={{ duration: 0.6, delay: 0.08, ease }}
             className="relative"
           >
             {/* Decorative year */}
@@ -66,7 +66,7 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.55, ease }}
+              transition={{ duration: 0.4, delay: 0.38, ease }}
               className="absolute -bottom-4 -right-2 lg:-right-4 bg-brand-blue text-white rounded-xl px-4 py-2.5 shadow-lg z-20"
             >
               <div className="font-headline text-xl font-bold leading-none">ISO</div>
@@ -78,7 +78,7 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.22, ease }}
+            transition={{ duration: 0.6, delay: 0.14, ease }}
             className="flex flex-col justify-start lg:pt-2"
           >
             <p className="text-brand-gray text-base leading-relaxed mb-4">
@@ -99,7 +99,7 @@ export default function About() {
                   key={s.label}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.4, delay: 0.45 + i * 0.08, ease }}
+                  transition={{ duration: 0.35, delay: 0.3 + i * 0.06, ease }}
                   className="flex items-baseline gap-1.5 bg-bg-light border border-gray-200 rounded-xl px-4 py-2.5"
                 >
                   <span className="font-headline text-2xl font-bold text-brand-blue leading-none">
@@ -116,7 +116,7 @@ export default function About() {
               href="#contact"
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.5, delay: 0.65 }}
+              transition={{ duration: 0.4, delay: 0.45 }}
               whileHover={{ x: 4 }}
               className="mt-8 inline-flex items-center gap-2 text-brand-blue font-semibold text-sm transition-colors duration-200 group w-fit"
             >
@@ -129,7 +129,7 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.32, ease }}
+            transition={{ duration: 0.6, delay: 0.2, ease }}
             className="flex flex-col gap-0 divide-y divide-gray-100 lg:border-l lg:border-gray-100 lg:pl-8"
           >
             {t.about.usps.map((usp, i) => {
@@ -139,7 +139,7 @@ export default function About() {
                   key={i}
                   initial={{ opacity: 0, x: 16 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 + i * 0.1, ease }}
+                  transition={{ duration: 0.45, delay: 0.28 + i * 0.08, ease }}
                   className="flex items-start gap-4 py-5 group"
                 >
                   <div className="flex-shrink-0 mt-0.5 w-10 h-10 rounded-xl bg-brand-blue/8 flex items-center justify-center group-hover:bg-brand-blue/15 group-hover:scale-110 transition-all duration-300">
@@ -164,7 +164,7 @@ export default function About() {
                   key={c}
                   initial={{ opacity: 0, scale: 0.85 }}
                   animate={inView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.35, delay: 0.7 + i * 0.06, ease }}
+                  transition={{ duration: 0.3, delay: 0.5 + i * 0.05, ease }}
                   className="text-xs font-semibold text-brand-blue bg-brand-blue/8 border border-brand-blue/20 px-2.5 py-1 rounded-lg"
                 >
                   {c}

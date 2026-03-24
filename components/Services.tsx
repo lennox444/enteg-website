@@ -37,7 +37,7 @@ export default function Services() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.65, ease }}
+          transition={{ duration: 0.5, ease }}
           className="flex items-end gap-6 border-b border-gray-200 pb-8 mb-8"
         >
           <div className="flex-1">
@@ -45,7 +45,7 @@ export default function Services() {
             <motion.span
               initial={{ opacity: 0, x: -12 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.45, delay: 0.15, ease }}
+              transition={{ duration: 0.35, delay: 0.1, ease }}
               className="inline-flex items-center gap-2 text-brand-blue text-xs font-bold uppercase tracking-widest mb-3"
             >
               <span className="w-4 h-px bg-brand-blue inline-block" />
@@ -73,7 +73,7 @@ export default function Services() {
                 key={service.title}
                 initial={{ opacity: 0, y: 32 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.1, ease }}
+                transition={{ duration: 0.5, delay: 0.07 + i * 0.08, ease }}
                 className={`group relative col-span-3 flex flex-col justify-between overflow-hidden rounded-2xl bg-bg-dark [box-shadow:0_2px_4px_rgba(0,0,0,.15),0_12px_24px_rgba(0,0,0,.15)] ${bentoClasses[i]}`}
               >
                 {/* Background image */}

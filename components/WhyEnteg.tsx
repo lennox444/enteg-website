@@ -130,7 +130,7 @@ export default function WhyEnteg() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.65, ease }}
+          transition={{ duration: 0.5, ease }}
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8 mb-10"
           style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
         >
@@ -179,7 +179,7 @@ export default function WhyEnteg() {
                   key={i}
                   initial={{ opacity: 0, x: -32 }}
                   animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.16 + i * 0.13, ease }}
+                  transition={{ duration: 0.5, delay: 0.1 + i * 0.1, ease }}
                   whileHover={{ y: -3, transition: { duration: 0.18 } }}
                   className="group relative rounded-xl p-4 sm:p-5 cursor-default overflow-hidden"
                   style={{
@@ -242,7 +242,7 @@ export default function WhyEnteg() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.55, delay: 0.62 }}
+              transition={{ duration: 0.45, delay: 0.45 }}
               className="flex items-center justify-between pt-1.5 px-1"
             >
               <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "rgba(255,255,255,0.13)" }}>
@@ -279,7 +279,7 @@ export default function WhyEnteg() {
             {/* Row 1 */}
             <div className="grid grid-cols-2 gap-2.5">
               {t.why.steps.slice(0, 2).map((step, i) => (
-                <ProcessCard key={i} step={{ n: `0${i + 1}`, ...step, img: STEP_IMGS[i] }} delay={0.26 + i * 0.11} inView={inView} />
+                <ProcessCard key={i} step={{ n: `0${i + 1}`, ...step, img: STEP_IMGS[i] }} delay={0.18 + i * 0.09} inView={inView} />
               ))}
             </div>
 
@@ -287,7 +287,7 @@ export default function WhyEnteg() {
             <motion.div
               initial={{ opacity: 0, scaleY: 0 }}
               animate={inView ? { opacity: 1, scaleY: 1 } : {}}
-              transition={{ duration: 0.38, delay: 0.52 }}
+              transition={{ duration: 0.3, delay: 0.35 }}
               className="flex justify-center origin-top"
             >
               <div className="flex flex-col items-center gap-0.5">
@@ -305,7 +305,7 @@ export default function WhyEnteg() {
             {/* Row 2 */}
             <div className="grid grid-cols-2 gap-2.5">
               {t.why.steps.slice(2, 4).map((step, i) => (
-                <ProcessCard key={i + 2} step={{ n: `0${i + 3}`, ...step, img: STEP_IMGS[i + 2] }} delay={0.57 + i * 0.11} inView={inView} />
+                <ProcessCard key={i + 2} step={{ n: `0${i + 3}`, ...step, img: STEP_IMGS[i + 2] }} delay={0.38 + i * 0.09} inView={inView} />
               ))}
             </div>
 
@@ -313,7 +313,7 @@ export default function WhyEnteg() {
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: 0.82 }}
+              transition={{ duration: 0.4, delay: 0.58 }}
               className="grid grid-cols-3 gap-2 mt-0.5"
             >
               {t.why.statsStrip.map((s) => (

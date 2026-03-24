@@ -47,13 +47,13 @@ function StatCell({
   // Split "30+" → numeric=30, suffix="+"
   const numericPart = parseInt(stat.value) || 0;
   const suffix = stat.value.replace(/[0-9]/g, "");
-  const counted = useCountUp(numericPart, inView, 1400 + index * 150);
+  const counted = useCountUp(numericPart, inView, 1100 + index * 100);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.11, ease }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease }}
       className="group relative px-6 sm:px-8 py-10 lg:py-12 cursor-default overflow-hidden"
       style={{ borderRight: "1px solid rgba(255,255,255,0.05)" }}
     >
@@ -69,7 +69,7 @@ function StatCell({
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.65, delay: 0.12 + index * 0.11, ease }}
+        transition={{ duration: 0.55, delay: 0.1 + index * 0.08, ease }}
         className="font-headline font-black leading-none mb-2 transition-colors duration-300 group-hover:text-[#4A8FE0] tabular-nums"
         style={{
           fontSize: "clamp(2.8rem, 5vw, 5rem)",
