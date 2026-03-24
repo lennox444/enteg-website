@@ -131,11 +131,17 @@ export default function Navbar() {
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
-              initial={{ opacity: 0, y: -8, scale: 0.98 }}
+              initial={{ opacity: 0, y: -10, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -8, scale: 0.98 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:hidden mt-2 mb-2 rounded-2xl border border-gray-100 shadow-xl overflow-hidden bg-white/98 backdrop-blur-xl"
+              exit={{ opacity: 0, y: -10, scale: 0.97 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:hidden mt-2 mb-2 rounded-2xl overflow-hidden"
+              style={{
+                background: "rgba(7,16,28,0.97)",
+                border: "1px solid rgba(74,143,224,0.18)",
+                boxShadow: "0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,143,224,0.08)",
+                backdropFilter: "blur(20px)",
+              }}
             >
               {navLinks.map((link, i) => {
                 const isActive = activeSection === link.id;
@@ -144,18 +150,29 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={{ opacity: 0, x: -12 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.18, delay: i * 0.04 }}
-                    className={`flex items-center px-5 py-4 text-sm font-medium transition-colors border-b border-gray-50 last:border-0 min-h-[52px] ${
-                      isActive
-                        ? "text-brand-blue bg-blue-50"
-                        : "text-brand-gray-dark hover:text-brand-blue hover:bg-bg-section"
-                    }`}
+                    transition={{ duration: 0.2, delay: i * 0.05 }}
+                    className="flex items-center px-5 py-4 text-sm font-medium min-h-[54px] transition-colors duration-200"
+                    style={{
+                      borderBottom: "1px solid rgba(255,255,255,0.05)",
+                      color: isActive ? "#4A8FE0" : "rgba(255,255,255,0.82)",
+                      background: isActive ? "rgba(74,143,224,0.08)" : "transparent",
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isActive) (e.currentTarget as HTMLElement).style.background = "rgba(74,143,224,0.06)";
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive) (e.currentTarget as HTMLElement).style.background = "transparent";
+                    }}
                   >
-                    {isActive && (
-                      <span className="w-1 h-4 rounded-full bg-brand-blue mr-3 flex-shrink-0" />
-                    )}
+                    <span
+                      className="w-1 h-4 rounded-full mr-3 flex-shrink-0 transition-all duration-300"
+                      style={{
+                        background: isActive ? "#4A8FE0" : "rgba(255,255,255,0.15)",
+                        opacity: isActive ? 1 : 0.5,
+                      }}
+                    />
                     {link.label}
                   </motion.a>
                 );

@@ -1,40 +1,15 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTranslation } from "@/lib/i18n-context";
 import { EASE as ease } from "@/lib/utils";
+import CountUp from "@/components/ui/count-up";
 
 const BLUE = "#4A8FE0";
 const BG   = "#07101C";
 
-/* ── Count-up hook ─────────────────────────────────────────── */
-function useCountUp(target: number, inView: boolean, duration = 1600): number {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    // For large numbers (like years), start near the target for readability
-    const startFrom = target >= 1000 ? target - 12 : 0;
-    let startTime: number | null = null;
-
-    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
-
-    const tick = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
-      const current = Math.round(startFrom + easeOut(progress) * (target - startFrom));
-      setCount(current);
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-
-    requestAnimationFrame(tick);
-  }, [target, inView, duration]);
-
-  return count;
-}
-
-/* ── Single stat cell with count-up ───────────────────────── */
+/* ── Single stat cell ──────────────────────────────────────── */
 function StatCell({
   stat,
   index,
@@ -44,10 +19,10 @@ function StatCell({
   index: number;
   inView: boolean;
 }) {
-  // Split "30+" → numeric=30, suffix="+"
   const numericPart = parseInt(stat.value) || 0;
   const suffix = stat.value.replace(/[0-9]/g, "");
-  const counted = useCountUp(numericPart, inView, 1100 + index * 100);
+  // For years (≥1000), start 15 below target; otherwise from 0
+  const from = numericPart >= 1000 ? numericPart - 15 : 0;
 
   return (
     <motion.div
@@ -67,7 +42,7 @@ function StatCell({
 
       {/* Value with count-up */}
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
+        initial={{ opacity: 0, y: 14 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.55, delay: 0.1 + index * 0.08, ease }}
         className="font-headline font-black leading-none mb-2 transition-colors duration-300 group-hover:text-[#4A8FE0] tabular-nums"
@@ -76,7 +51,13 @@ function StatCell({
           color: "rgba(255,255,255,0.92)",
         }}
       >
-        {counted}
+        <CountUp
+          from={from}
+          to={numericPart}
+          duration={2.4}
+          delay={0.1 + index * 0.12}
+          startWhen={inView}
+        />
         {suffix}
       </motion.div>
 
