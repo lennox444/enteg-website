@@ -10,6 +10,7 @@ import {
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CpuArchitecture } from '@/components/ui/cpu-architecture';
+import { EASE } from '@/lib/utils';
 
 interface ScrollExpandMediaProps {
   mediaType?: 'video' | 'image';
@@ -186,7 +187,7 @@ const ScrollExpandMedia = ({
       if (mediaFullyExpandedRef.current) return;
 
       e.preventDefault();
-      const factor = deltaY < 0 ? 0.014 : 0.014;
+      const factor = 0.014;
       const newP = Math.min(Math.max(progressRef.current + deltaY * factor, 0), 1);
 
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
@@ -300,7 +301,7 @@ const ScrollExpandMedia = ({
                 ref={mediaBoxRef}
                 initial={{ opacity: 0, scale: 0.88 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}
               >
                 {mediaNode ? (
                   <div className='relative w-full h-full flex items-center justify-center p-10'>
@@ -359,7 +360,7 @@ const ScrollExpandMedia = ({
                 }`}
                 initial={{ opacity: 0, x: -60 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.2 }}
               >
                 <h1
                   ref={firstWordRef}
@@ -377,7 +378,7 @@ const ScrollExpandMedia = ({
                 }`}
                 initial={{ opacity: 0, x: 60 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.35 }}
               >
                 <h1
                   ref={secondWordRef}

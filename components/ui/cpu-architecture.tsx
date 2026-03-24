@@ -259,16 +259,16 @@ const CpuArchitecture = ({
       {/* ── Central node ── */}
       {/* Outer glow ring */}
       <circle cx="100" cy="50" r="5" fill="rgba(71,125,207,0.15)" filter="url(#el-node-glow)">
-        <animate attributeName="r" values="4;6;4" dur="3s" repeatCount="indefinite" />
-        <animate attributeName="opacity" values="0.15;0.3;0.15" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="r" values="4;6.5;4" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
+        <animate attributeName="opacity" values="0.12;0.28;0.12" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
       </circle>
       {/* Mid ring */}
       <circle cx="100" cy="50" r="3" fill="#0d1f3c" stroke="#477DCF" strokeWidth="0.5" filter="url(#el-glow-soft)">
-        <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
       </circle>
       {/* Inner dot */}
       <circle cx="100" cy="50" r="1.4" fill="#93c5fd" filter="url(#el-glow-strong)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
       </circle>
 
       {/* ── Corner junction dots ── */}

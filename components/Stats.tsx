@@ -3,10 +3,10 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTranslation } from "@/lib/i18n-context";
+import { EASE as ease } from "@/lib/utils";
 
 const BLUE = "#4A8FE0";
 const BG   = "#07101C";
-const ease = [0.22, 1, 0.36, 1] as const;
 
 /* ── Count-up hook ─────────────────────────────────────────── */
 function useCountUp(target: number, inView: boolean, duration = 1600): number {

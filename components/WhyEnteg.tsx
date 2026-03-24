@@ -11,6 +11,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n-context";
+import { EASE as ease } from "@/lib/utils";
 
 /* ─── Constants ──────────────────────────────────────────── */
 const CARD_ICONS: LucideIcon[] = [Award, ShieldCheck, Building2];
@@ -24,7 +25,6 @@ const STEP_IMGS = [
   "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=700",           // Rohstoffe – Kupferkabel
 ];
 
-const ease = [0.22, 1, 0.36, 1] as const;
 
 /* ─── ProcessCard ────────────────────────────────────────── */
 function ProcessCard({

@@ -4,9 +4,9 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Truck, Factory, FileCheck } from "lucide-react";
 import { useTranslation } from "@/lib/i18n-context";
+import { EASE as ease } from "@/lib/utils";
 
 const uspIcons = [Factory, Truck, FileCheck];
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function About() {
   const { t } = useTranslation();

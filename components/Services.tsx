@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Trash2, HardDrive, RefreshCw, Recycle, ArrowRight, type LucideIcon } from "lucide-react";
 import { useTranslation } from "@/lib/i18n-context";
+import { EASE as ease } from "@/lib/utils";
 
 const iconMap: Record<string, LucideIcon> = { Trash2, HardDrive, RefreshCw, Recycle };
 
@@ -21,8 +22,6 @@ const bentoClasses = [
   "lg:col-start-3 lg:col-end-4 lg:row-start-2 lg:row-end-3",
   "lg:col-start-1 lg:col-end-4 lg:row-start-3 lg:row-end-4",
 ];
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Services() {
   const { t } = useTranslation();

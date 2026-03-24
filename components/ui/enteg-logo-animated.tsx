@@ -128,6 +128,14 @@ export function EntegLogoAnimated({ className, light, scrollProgress, noAnimatio
         animate={subtextVisible ? { y: 0, opacity: 1 } : { y: 12, opacity: 0 }}
         transition={{ type: "spring", stiffness: 280, damping: 22 }}
       >
+        {/* Dark scrim so subtext reads cleanly against the circuit background */}
+        {scrollProgress !== undefined && (
+          <>
+            <rect x="228" y="326" width="256" height="34" rx="6" fill="rgba(7,16,28,0.82)" />
+            <rect x="228" y="326" width="256" height="34" rx="6"
+              fill="none" stroke="rgba(71,125,207,0.18)" strokeWidth="0.6" />
+          </>
+        )}
         <path
           className={scrollProgress !== undefined || noAnimation ? undefined : "subtext-blue"}
           fill={scrollProgress !== undefined ? "#ffffff" : "#477DCF"}
