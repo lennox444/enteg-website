@@ -8,6 +8,9 @@ export default function Contact() {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [mapMounted, setMapMounted] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState({ salutation: "", name: "", company: "", email: "", message: "" });
   const submitBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -40,6 +43,18 @@ export default function Contact() {
     }, 10000);
     return () => clearTimeout(timer);
   }, [submitted]);
+
+  // Mount iframe early — 600px before it enters viewport so it's ready when user arrives
+  useEffect(() => {
+    const el = mapContainerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setMapMounted(true); observer.disconnect(); } },
+      { rootMargin: "600px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -229,14 +244,38 @@ export default function Contact() {
             </div>
 
             {/* Map */}
-            <div className="rounded-2xl overflow-hidden border border-gray-200 shadow-sm flex-1 min-h-[160px]">
-              <iframe
-                src="https://maps.google.com/maps?q=Hoppenmeer+9A+Sch%C3%B6ning+33129+Delbr%C3%BCck+Deutschland&z=16&output=embed"
-                className="w-full h-full border-0 min-h-[160px]"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={t.contact.mapTitle}
-              />
+            <div
+              ref={mapContainerRef}
+              className="relative rounded-2xl overflow-hidden border border-gray-200 shadow-sm flex-1 min-h-[180px]"
+            >
+              {/* Skeleton — fades out once map is ready */}
+              <div
+                className="absolute inset-0 transition-opacity duration-400 pointer-events-none"
+                style={{
+                  opacity: mapLoaded ? 0 : 1,
+                  background: "#e8edf2",
+                  animation: mapLoaded ? "none" : "shimmer 1.6s ease-in-out infinite",
+                  zIndex: 1,
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-2 opacity-25">
+                    <MapPin size={28} className="text-gray-400" />
+                    <div className="w-16 h-1.5 rounded-full bg-gray-300" />
+                  </div>
+                </div>
+              </div>
+
+              {mapMounted && (
+                <iframe
+                  src="https://maps.google.com/maps?q=Hoppenmeer+9A+Sch%C3%B6ning+33129+Delbr%C3%BCck+Deutschland&z=16&output=embed"
+                  className="w-full h-full border-0 min-h-[180px] transition-opacity duration-400"
+                  style={{ opacity: mapLoaded ? 1 : 0 }}
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={t.contact.mapTitle}
+                  onLoad={() => setMapLoaded(true)}
+                />
+              )}
             </div>
           </div>
         </div>
