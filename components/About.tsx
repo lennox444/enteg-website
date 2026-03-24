@@ -63,15 +63,16 @@ export default function About() {
             </div>
 
             {/* Floating badge */}
-            <motion.div
+            <motion.a
+              href="#certifications"
               initial={{ opacity: 0, y: 12 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.38, ease }}
-              className="absolute -bottom-4 -right-2 lg:-right-4 bg-brand-blue text-white rounded-xl px-4 py-2.5 shadow-lg z-20"
+              className="absolute -bottom-4 -right-2 lg:-right-4 bg-brand-blue text-white rounded-xl px-4 py-2.5 shadow-lg z-20 cursor-pointer hover:brightness-110 active:scale-95 transition-all duration-150"
             >
               <div className="font-headline text-xl font-bold leading-none">ISO</div>
               <div className="text-[10px] font-semibold tracking-widest opacity-80 mt-0.5">ZERTIFIZIERT</div>
-            </motion.div>
+            </motion.a>
           </motion.div>
 
           {/* ── COL 2: Text ── */}

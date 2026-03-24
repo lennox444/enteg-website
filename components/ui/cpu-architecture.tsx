@@ -197,64 +197,6 @@ const CpuArchitecture = ({
         <circle className="cpu-architecture cpu-line-8" cx="0" cy="0" r="6" fill="url(#el-grad-8)" />
       </g>
 
-      {/* ── Lightning bolts near center ── */}
-      {/* Bolt A */}
-      <path
-        d="M 97 44 L 94 50.5 L 98 50.5 L 95 57"
-        fill="none" stroke="#93c5fd" strokeWidth="0.7"
-        strokeLinecap="round" strokeLinejoin="round"
-        filter="url(#el-glow-strong)"
-      >
-        <animate attributeName="opacity"
-          values="0;0;0;1;0.9;0.5;0;0;0;0;0;0"
-          dur="7s" repeatCount="indefinite" begin="1.5s" />
-      </path>
-      {/* Bolt A secondary */}
-      <path
-        d="M 96.5 45 L 94.5 50 L 98 50 L 96 56"
-        fill="none" stroke="#dbeafe" strokeWidth="0.4"
-        strokeLinecap="round" strokeLinejoin="round"
-      >
-        <animate attributeName="opacity"
-          values="0;0;0;0.7;0;0;0;0;0;0;0;0"
-          dur="7s" repeatCount="indefinite" begin="1.6s" />
-      </path>
-
-      {/* Bolt B — offset timing */}
-      <path
-        d="M 103 44 L 100 51 L 104 51 L 101 57"
-        fill="none" stroke="#60a5fa" strokeWidth="0.65"
-        strokeLinecap="round" strokeLinejoin="round"
-        filter="url(#el-glow-strong)"
-      >
-        <animate attributeName="opacity"
-          values="0;0;0;0;0;0;1;0.8;0.3;0;0;0"
-          dur="9s" repeatCount="indefinite" begin="3s" />
-      </path>
-
-      {/* Bolt C — top area */}
-      <path
-        d="M 99 20 L 97 25 L 100.5 25 L 98.5 30"
-        fill="none" stroke="#93c5fd" strokeWidth="0.5"
-        strokeLinecap="round" strokeLinejoin="round"
-        filter="url(#el-glow-soft)"
-      >
-        <animate attributeName="opacity"
-          values="0;0;0;0;1;0.6;0;0;0;0;0;0"
-          dur="11s" repeatCount="indefinite" begin="2s" />
-      </path>
-
-      {/* Bolt D — bottom area */}
-      <path
-        d="M 101 70 L 99 75 L 102 75 L 100 80"
-        fill="none" stroke="#477DCF" strokeWidth="0.5"
-        strokeLinecap="round" strokeLinejoin="round"
-        filter="url(#el-glow-soft)"
-      >
-        <animate attributeName="opacity"
-          values="0;0;0;0;0;0;0;1;0.5;0;0;0"
-          dur="13s" repeatCount="indefinite" begin="0.5s" />
-      </path>
 
       {/* ── Cross junction — cables meet here ── */}
       <g stroke="#477DCF" strokeWidth="0.75" strokeLinecap="round" filter="url(#el-glow-soft)" opacity="0.6">

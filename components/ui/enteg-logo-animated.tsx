@@ -258,52 +258,6 @@ export function EntegLogoAnimated({ className, light, scrollProgress, noAnimatio
         />
       </motion.g>
 
-      {/* ── Lightning bolt between prongs — appears periodically ── */}
-      <motion.path
-        d="M449,261 L443.5,271.5 L450.5,271.5 L445,282"
-        fill="none"
-        stroke="#93c5fd"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        filter="url(#spark-glow)"
-        initial={{ opacity: 0, pathLength: 0 }}
-        animate={{
-          opacity: [0, 0, 1, 0.9, 0.6, 0],
-          pathLength: [0, 0, 1, 1, 1, 0],
-        }}
-        transition={{
-          duration: 0.5,
-          repeat: Infinity,
-          repeatDelay: 6,
-          delay: 2.0,
-          ease: "easeOut",
-          times: [0, 0.2, 0.45, 0.65, 0.85, 1],
-        }}
-      />
-
-      {/* ── Secondary smaller spark (slightly offset, delayed) ── */}
-      <motion.path
-        d="M447,261.5 L444,269 L449,269 L446,280"
-        fill="none"
-        stroke="#bfdbfe"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ opacity: 0, pathLength: 0 }}
-        animate={{
-          opacity: [0, 0, 0.7, 0],
-          pathLength: [0, 0, 1, 0],
-        }}
-        transition={{
-          duration: 0.35,
-          repeat: Infinity,
-          repeatDelay: 6,
-          delay: 2.12,
-          ease: "easeOut",
-          times: [0, 0.25, 0.6, 1],
-        }}
-      />
     </motion.svg>
   );
 }
