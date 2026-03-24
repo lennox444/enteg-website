@@ -186,7 +186,7 @@ const ScrollExpandMedia = ({
       if (mediaFullyExpandedRef.current) return;
 
       e.preventDefault();
-      const factor = deltaY < 0 ? 0.009 : 0.008;
+      const factor = deltaY < 0 ? 0.014 : 0.014;
       const newP = Math.min(Math.max(progressRef.current + deltaY * factor, 0), 1);
 
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
