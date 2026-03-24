@@ -256,20 +256,11 @@ const CpuArchitecture = ({
           dur="13s" repeatCount="indefinite" begin="0.5s" />
       </path>
 
-      {/* ── Central node ── */}
-      {/* Outer glow ring */}
-      <circle cx="100" cy="50" r="5" fill="rgba(71,125,207,0.15)" filter="url(#el-node-glow)">
-        <animate attributeName="r" values="4;6.5;4" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
-        <animate attributeName="opacity" values="0.12;0.28;0.12" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
-      </circle>
-      {/* Mid ring */}
-      <circle cx="100" cy="50" r="3" fill="#0d1f3c" stroke="#477DCF" strokeWidth="0.5" filter="url(#el-glow-soft)">
-        <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
-      </circle>
-      {/* Inner dot */}
-      <circle cx="100" cy="50" r="1.4" fill="#93c5fd" filter="url(#el-glow-strong)">
-        <animate attributeName="opacity" values="0.6;1;0.6" dur="4.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" keyTimes="0;0.5;1" />
-      </circle>
+      {/* ── Cross junction — cables meet here ── */}
+      <g stroke="#477DCF" strokeWidth="0.75" strokeLinecap="round" filter="url(#el-glow-soft)" opacity="0.6">
+        <line x1="97.2" y1="50" x2="102.8" y2="50" />
+        <line x1="100" y1="47.2" x2="100" y2="52.8" />
+      </g>
 
       {/* ── Corner junction dots ── */}
       {[

@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 
 export function EntegLogoAnimated({ className, light, scrollProgress, noAnimation }: { className?: string; light?: boolean; scrollProgress?: number; noAnimation?: boolean }) {
-  const subtextVisible = (scrollProgress ?? 1) >= 0.7;
+  const subtextVisible = scrollProgress === undefined && (scrollProgress ?? 1) >= 0.7;
   // In hero (scrollProgress defined): always white. In footer/navbar: original gray.
   const letterColor = scrollProgress !== undefined ? "#ffffff" : (light ? "#d0d0d0" : "#666666");
   // Unique suffix per variant so global SVG <style> blocks don't conflict
@@ -26,6 +26,15 @@ export function EntegLogoAnimated({ className, light, scrollProgress, noAnimatio
             <feMergeNode in="SourceGraphic" />
           </feMerge>
         </filter>
+        <filter id="subtext-line-glow" x="-8%" y="-180%" width="116%" height="460%">
+          <feGaussianBlur stdDeviation="1.4" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <radialGradient id="subtext-pulse-grad" fx="1">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="38%" stopColor="#93c5fd" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
       </defs>
 
       <style>{`
@@ -54,6 +63,23 @@ export function EntegLogoAnimated({ className, light, scrollProgress, noAnimatio
         @keyframes flicker {
           0%, 86%, 88%, 90%, 100% { opacity: 1; }
           87%, 89% { opacity: 0.45; }
+        }
+        @keyframes subtextPowerOn {
+          0%   { opacity: 0;    fill: rgba(147,197,253,0); filter: drop-shadow(0 0 0px transparent); }
+          7%   { opacity: 1;    fill: #e0f0ff;             filter: drop-shadow(0 0 14px #93c5fd) drop-shadow(0 0 28px #60a5fa); }
+          20%  { opacity: 0.72; fill: #93c5fd;             filter: drop-shadow(0 0 2px rgba(96,165,250,0.3)); }
+          36%  { opacity: 1;    fill: #bfdbfe;             filter: drop-shadow(0 0 10px #60a5fa) drop-shadow(0 0 20px #3b82f6); }
+          68%  { opacity: 1;    fill: #93c5fd;             filter: drop-shadow(0 0 2px rgba(147,197,253,0.2)); }
+          100% { opacity: 1;    fill: #93c5fd;             filter: drop-shadow(0 0 3px rgba(147,197,253,0.38)); }
+        }
+        @keyframes subtextHeroGlow {
+          0%, 100% { filter: drop-shadow(0 0 3px rgba(147,197,253,0.38)); fill: #93c5fd; }
+          50%      { filter: drop-shadow(0 0 7px rgba(147,197,253,0.9)) drop-shadow(0 0 14px rgba(96,165,250,0.35)); fill: #bfdbfe; }
+        }
+        .subtext-hero {
+          animation:
+            subtextPowerOn 2.4s cubic-bezier(0.22, 1, 0.36, 1) 1 both,
+            subtextHeroGlow 4s ease-in-out infinite 2.5s;
         }
         .prong-1 {
           fill: #477DCF;
@@ -128,17 +154,49 @@ export function EntegLogoAnimated({ className, light, scrollProgress, noAnimatio
         animate={subtextVisible ? { y: 0, opacity: 1 } : { y: 12, opacity: 0 }}
         transition={{ type: "spring", stiffness: 280, damping: 22 }}
       >
-        {/* Dark scrim so subtext reads cleanly against the circuit background */}
-        {scrollProgress !== undefined && (
-          <>
-            <rect x="228" y="326" width="256" height="34" rx="6" fill="rgba(7,16,28,0.82)" />
-            <rect x="228" y="326" width="256" height="34" rx="6"
-              fill="none" stroke="rgba(71,125,207,0.18)" strokeWidth="0.6" />
-          </>
-        )}
+        {/* ── Underline cable — draws left-to-right, acts as circuit trace beneath text ── */}
+        {scrollProgress !== undefined && (<>
+          <motion.path
+            d="M 232 366 L 480 366"
+            stroke="#4A8FE0" strokeWidth="0.65" strokeLinecap="round" fill="none"
+            filter="url(#subtext-line-glow)"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={subtextVisible ? { pathLength: 1, opacity: 0.65 } : { pathLength: 0, opacity: 0 }}
+            transition={{ duration: 0.95, delay: 0.18, ease: [0.4, 0, 0.2, 1] }}
+          />
+          {/* Junction dots at line ends */}
+          <motion.circle cx={232} cy={366} r={1.5} fill="#4A8FE0" filter="url(#subtext-line-glow)"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={subtextVisible ? { scale: 1, opacity: 0.7 } : { scale: 0, opacity: 0 }}
+            transition={{ duration: 0.22, delay: 0.18 }}
+          />
+          <motion.circle cx={480} cy={366} r={1.5} fill="#4A8FE0" filter="url(#subtext-line-glow)"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={subtextVisible ? { scale: 1, opacity: 0.7 } : { scale: 0, opacity: 0 }}
+            transition={{ duration: 0.22, delay: 1.12 }}
+          />
+          {/* Pulse dot running along the underline */}
+          <motion.g
+            animate={subtextVisible ? {
+              x: [232, 232, 480, 480],
+              opacity: [0, 1, 1, 0],
+            } : { x: 232, opacity: 0 }}
+            transition={{ duration: 2.4, times: [0, 0.07, 0.93, 1], ease: "easeInOut",
+              repeat: Infinity, repeatDelay: 2.6, delay: 2.2 }}
+          >
+            <circle cx={0} cy={366} r={3.5} fill="url(#subtext-pulse-grad)" filter="url(#subtext-line-glow)" />
+          </motion.g>
+        </>)}
+
         <path
-          className={scrollProgress !== undefined || noAnimation ? undefined : "subtext-blue"}
-          fill={scrollProgress !== undefined ? "#ffffff" : "#477DCF"}
+          className={
+            scrollProgress !== undefined && subtextVisible
+              ? "subtext-hero"
+              : scrollProgress === undefined && !noAnimation
+              ? "subtext-blue"
+              : undefined
+          }
+          fill={scrollProgress !== undefined ? "#93c5fd" : "#477DCF"}
           d="M449.431,351.232h3.928v-5.116c0-3.308,1.602-4.884,4.212-4.884h0.207v-4.109
           c-2.326-0.103-3.618,1.137-4.419,3.049v-2.791h-3.928V351.232z M436.768,343.221c0.31-1.783,1.37-2.946,2.998-2.946
           c1.654,0,2.688,1.189,2.92,2.946H436.768z M440.153,351.542c2.507,0,4.367-0.982,5.659-2.584l-2.248-1.99
