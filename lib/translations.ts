@@ -119,6 +119,20 @@ export const translations = {
           icon: "Building2",
         },
       ],
+      processTitle: "Vom Elektroaltgerät zum Rohstoff",
+      processSub: "Sicher. Nachvollziehbar. Zertifiziert.",
+      processSteps: [
+        { n: "01", title: "Abholung",              desc: "Bundesweiter Abholservice mit eigenem Fuhrpark – termingerecht, versichert, mit Übernahmeprotokoll.", tag: "Eigener Fuhrpark" },
+        { n: "02", title: "Sichere Demontage",      desc: "Fachgerechte Zerlegung nach ElektroG. Jedes Gerät wird einzeln erfasst und lückenlos dokumentiert.",  tag: "ElektroG" },
+        { n: "03", title: "Datenvernichtung",       desc: "Physische Vernichtung nach DIN 66399 – mit schriftlichem Nachweis als rechtssicherem Beleg.",          tag: "DIN 66399" },
+        { n: "04", title: "Rohstoffrückgewinnung",  desc: "Eigene Schredderanlage für maximale Materialausbeute – umweltgerecht zertifiziert nach ISO 14001.",    tag: "ISO 14001" },
+      ],
+      trustStats: [
+        { value: "30+",  label: "Jahre Erfahrung",  detail: "Branchenexpertise seit 1994" },
+        { value: "100%", label: "DSGVO-konform",    detail: "Zertifizierte Datenvernichtung" },
+        { value: "0",    label: "Datenlecks",       detail: "Nachweisbar seit Gründung" },
+        { value: "5",    label: "Zertifizierungen", detail: "ISO · DIN · ElektroG · KrWG" },
+      ],
     },
     certs: {
       title: "Zertifizierungen & Nachweise",
@@ -329,6 +343,20 @@ export const translations = {
           desc: "As an owner-managed company, we operate independently – fast, flexible, and without corporate bureaucracy.",
           icon: "Building2",
         },
+      ],
+      processTitle: "From E-Waste to Raw Material",
+      processSub: "Secure. Traceable. Certified.",
+      processSteps: [
+        { n: "01", title: "Collection",            desc: "Nationwide pickup with own fleet – on schedule, insured, and with a signed handover record.",           tag: "Own Fleet" },
+        { n: "02", title: "Secure Disassembly",    desc: "Professional dismantling under ElektroG. Every device is individually logged and fully documented.",   tag: "ElektroG" },
+        { n: "03", title: "Data Destruction",      desc: "Physical destruction per DIN 66399 – with a written certificate as legally binding proof.",            tag: "DIN 66399" },
+        { n: "04", title: "Raw Material Recovery", desc: "Our own shredding plant for maximum material yield – environmentally certified to ISO 14001.",         tag: "ISO 14001" },
+      ],
+      trustStats: [
+        { value: "30+",  label: "Years Experience",  detail: "Industry expertise since 1994" },
+        { value: "100%", label: "GDPR-Compliant",    detail: "Certified data destruction" },
+        { value: "0",    label: "Data Leaks",        detail: "Verifiable since founding" },
+        { value: "5",    label: "Certifications",    detail: "ISO · DIN · ElektroG · KrWG" },
       ],
     },
     certs: {

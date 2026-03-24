@@ -1,339 +1,227 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import {
-  Award,
-  ShieldCheck,
-  Building2,
-  ArrowRight,
-  ArrowDown,
-  LucideIcon,
-} from "lucide-react";
+import { Truck, Wrench, ShieldX, Recycle, type LucideIcon } from "lucide-react";
 import { useTranslation } from "@/lib/i18n-context";
-import { EASE as ease } from "@/lib/utils";
+import { EASE } from "@/lib/utils";
 
-/* ─── Constants ──────────────────────────────────────────── */
-const CARD_ICONS: LucideIcon[] = [Award, ShieldCheck, Building2];
+const STEP_IMAGES = [
+  "/step-abholung.jpg",
+  "/step-demontage.jpg",
+  "/step-datenvernichtung.jpg",
+  "/step-rohstoff.png",
+];
+
+const STEP_ICONS: LucideIcon[] = [Truck, Wrench, ShieldX, Recycle];
 const BLUE = "#4A8FE0";
 const BG   = "#07101C";
 
-const STEP_IMGS = [
-  "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=700&q=82",                                      // Festplatte – HDD ✓
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=82",                                         // Demontage – Schrottteile ✓
-  "https://images.pexels.com/photos/3735218/pexels-photo-3735218.jpeg?auto=compress&cs=tinysrgb&w=700",           // Trennung – Elektroschrott
-  "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=700",           // Rohstoffe – Kupferkabel
-];
-
-
-/* ─── ProcessCard ────────────────────────────────────────── */
-function ProcessCard({
-  step,
-  delay,
-  inView,
-}: {
-  step: { n: string; title: string; sub: string; img: string };
-  delay: number;
-  inView: boolean;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay, ease }}
-      whileHover={{ scale: 1.025, transition: { duration: 0.2 } }}
-      className="relative rounded-xl overflow-hidden group cursor-default"
-      style={{ aspectRatio: "4/3" }}
-    >
-      <div
-        className="absolute inset-0 bg-cover bg-center scale-100 group-hover:scale-110 transition-transform duration-700"
-        style={{ backgroundImage: `url('${step.img}')` }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(155deg, rgba(7,16,28,0.1) 0%, rgba(7,16,28,0.52) 50%, rgba(7,16,28,0.96) 100%)",
-        }}
-      />
-      <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: "rgba(74,143,224,0.06)" }}
-      />
-
-      {/* Badge */}
-      <div
-        className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-widest"
-        style={{
-          background: "rgba(7,16,28,0.55)",
-          border: "1px solid rgba(74,143,224,0.5)",
-          backdropFilter: "blur(10px)",
-          color: BLUE,
-        }}
-      >
-        {step.n}
-      </div>
-
-      {/* Label */}
-      <div className="absolute bottom-0 left-0 right-0 p-3">
-        <p className="font-headline text-lg font-bold text-white uppercase leading-tight tracking-wide">
-          {step.title}
-        </p>
-        <p className="text-[9px] uppercase tracking-[0.18em] mt-0.5" style={{ color: "rgba(255,255,255,0.42)" }}>
-          {step.sub}
-        </p>
-      </div>
-
-      {/* Bottom glow on hover */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-        style={{ background: `linear-gradient(90deg, transparent, ${BLUE}77, transparent)` }}
-      />
-    </motion.div>
-  );
-}
-
-/* ─── Main section ───────────────────────────────────────── */
 export default function WhyEnteg() {
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section
-      id="why"
-      ref={ref}
-      className="relative overflow-hidden"
-      style={{ background: BG }}
-    >
-      {/* Grid texture */}
+    <section id="why" ref={ref} className="relative overflow-hidden" style={{ background: BG }}>
+
+      {/* ── Grid texture ─────────────────────────────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none select-none"
         style={{
           backgroundImage: `repeating-linear-gradient(180deg, transparent 0px, transparent 15px, rgba(74,143,224,0.09) 15px, rgba(74,143,224,0.09) 17px)`,
         }}
       />
-      {/* Radial glow – right */}
+      {/* Radial glow — top center */}
       <div
-        className="absolute -top-40 right-0 w-[640px] h-[640px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(74,143,224,0.08) 0%, transparent 62%)" }}
+        className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[640px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, rgba(74,143,224,0.08) 0%, transparent 64%)" }}
       />
-      {/* Radial glow – left */}
+      {/* Radial glow — bottom right accent */}
       <div
-        className="absolute bottom-0 -left-32 w-[480px] h-[480px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(52,211,153,0.05) 0%, transparent 62%)" }}
+        className="absolute -bottom-20 -right-20 w-[400px] h-[400px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(52,211,153,0.04) 0%, transparent 62%)" }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-14">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
 
-        {/* ── Header ── */}
+        {/* ════════════════════════════════════════════════════════════
+            HEADER
+        ════════════════════════════════════════════════════════════ */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, ease }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8 mb-10"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+          transition={{ duration: 0.5, ease: EASE }}
+          className="mb-16 lg:mb-20"
         >
-          <div>
-            <div className="inline-flex items-center gap-2.5 mb-3" style={{ color: BLUE }}>
-              <motion.span
-                initial={{ scaleX: 0 }}
-                animate={inView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.45, delay: 0.28 }}
-                className="block w-5 h-px origin-left"
-                style={{ background: BLUE }}
-              />
-              <span className="text-[10px] font-bold uppercase tracking-[0.26em]">
-                {t.why.badgeLabel}
-              </span>
-            </div>
-            <h2
-              className="font-headline font-black text-white uppercase leading-[0.88] tracking-tight"
-              style={{ fontSize: "clamp(2.6rem, 5.5vw, 5rem)" }}
-            >
-              {t.why.titleWord}{" "}
-              <span style={{ color: BLUE }}>Enteg</span>
-              <span style={{ color: "rgba(255,255,255,0.18)" }}>?</span>
-            </h2>
+          {/* Badge row */}
+          <div className="inline-flex items-center gap-2.5 mb-5" style={{ color: BLUE }}>
+            <motion.span
+              initial={{ scaleX: 0 }}
+              animate={inView ? { scaleX: 1 } : {}}
+              transition={{ duration: 0.4, delay: 0.25, ease: EASE }}
+              className="block w-6 h-px origin-left"
+              style={{ background: BLUE }}
+            />
+            <span className="text-[10px] font-bold uppercase tracking-[0.26em]">
+              {t.why.badgeLabel}
+            </span>
           </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.55, delay: 0.35 }}
-            className="text-xs max-w-[200px] sm:text-right leading-relaxed hidden sm:block"
-            style={{ color: "rgba(255,255,255,0.22)" }}
+
+          {/* Headline */}
+          <h2
+            className="font-headline font-black text-white uppercase leading-[0.88] tracking-tight mb-4"
+            style={{ fontSize: "clamp(2.2rem, 5.5vw, 4.4rem)" }}
           >
-            {t.why.subtitle}
-          </motion.p>
+            {t.why.processTitle}
+          </h2>
+
+          {/* Subline */}
+          <p
+            className="text-sm leading-relaxed max-w-xs"
+            style={{ color: "rgba(255,255,255,0.35)" }}
+          >
+            {t.why.processSub}
+          </p>
         </motion.div>
 
-        {/* ── Two-column body ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-8 lg:gap-12 items-start">
+        {/* ════════════════════════════════════════════════════════════
+            PROCESS FLOW
+        ════════════════════════════════════════════════════════════ */}
+        <div className="relative">
 
-          {/* ═══ LEFT: Feature Cards ═══ */}
-          <div className="flex flex-col gap-2.5">
-            {t.why.items.map((item, i) => {
-              const Icon = CARD_ICONS[i];
+          {/* Connecting line — desktop only, runs through icon-node centers */}
+          <div
+            className="hidden lg:block absolute z-0 pointer-events-none"
+            style={{ top: "208px", left: "12.5%", right: "12.5%" }}
+          >
+            {/* Dim base track */}
+            <div
+              className="h-px w-full"
+              style={{ background: "rgba(74,143,224,0.13)" }}
+            />
+            {/* Animated glowing charge line */}
+            <motion.div
+              className="absolute inset-0 h-px origin-left"
+              style={{
+                background: `linear-gradient(90deg, ${BLUE}10, ${BLUE}80 35%, ${BLUE} 50%, ${BLUE}80 65%, ${BLUE}10)`,
+                boxShadow: `0 0 8px 1px ${BLUE}45`,
+              }}
+              initial={{ scaleX: 0 }}
+              animate={inView ? { scaleX: 1 } : {}}
+              transition={{ duration: 1.5, delay: 0.65, ease: EASE }}
+            />
+          </div>
+
+          {/* Step cards grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {t.why.processSteps.map((step, i) => {
+              const Icon = STEP_ICONS[i];
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -32 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.1 + i * 0.1, ease }}
-                  whileHover={{ y: -3, transition: { duration: 0.18 } }}
-                  className="group relative rounded-xl p-4 sm:p-5 cursor-default overflow-hidden"
+                  initial={{ opacity: 0, y: 28 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.1 + i * 0.11, ease: EASE }}
+                  whileHover={{
+                    y: -8,
+                    boxShadow: `0 0 0 1px rgba(74,143,224,0.45), 0 24px 56px rgba(74,143,224,0.18)`,
+                    transition: { duration: 0.22 },
+                  }}
+                  className="group relative rounded-2xl cursor-default"
                   style={{
                     background: "rgba(255,255,255,0.026)",
                     border: "1px solid rgba(255,255,255,0.07)",
-                    boxShadow: "0 2px 18px rgba(0,0,0,0.3)",
                   }}
                 >
-                  {/* Hover gradient wash */}
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-350 pointer-events-none"
-                    style={{ background: "linear-gradient(105deg, rgba(74,143,224,0.08) 0%, transparent 55%)" }}
-                  />
-                  {/* Hover border */}
-                  <div
-                    className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-350 pointer-events-none"
-                    style={{ border: "1px solid rgba(74,143,224,0.3)", boxShadow: "0 0 24px rgba(74,143,224,0.06)" }}
-                  />
-                  {/* Ghost number */}
-                  <span
-                    className="absolute -bottom-2 right-3 font-headline font-black select-none pointer-events-none leading-none"
-                    style={{ fontSize: "5.5rem", color: "rgba(74,143,224,0.052)", lineHeight: 1 }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="relative flex items-start gap-3.5">
-                    {/* Icon */}
+                  {/* ── Stock image ── */}
+                  <div className="relative w-full h-52 rounded-t-2xl overflow-hidden">
+                    <Image
+                      src={STEP_IMAGES[i]}
+                      alt={step.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-108"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
+                    {/* Gradient: keep top light, fade dark towards bottom for icon area */}
                     <div
-                      className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center mt-0.5 transition-all duration-300 group-hover:scale-110"
-                      style={{
-                        background: "rgba(74,143,224,0.1)",
-                        border: "1px solid rgba(74,143,224,0.22)",
-                        boxShadow: "0 0 14px rgba(74,143,224,0.12)",
-                      }}
+                      className="absolute inset-0"
+                      style={{ background: "linear-gradient(to bottom, rgba(7,16,28,0.08) 0%, rgba(7,16,28,0.5) 70%, rgba(7,16,28,0.82) 100%)" }}
+                    />
+                    {/* Blue tint on hover */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{ background: "linear-gradient(160deg, rgba(74,143,224,0.15) 0%, transparent 60%)" }}
+                    />
+                    {/* Step number — top-left chip */}
+                    <span
+                      className="absolute top-3.5 left-4 font-mono text-[9px] font-bold tracking-[0.22em] z-10"
+                      style={{ color: `${BLUE}cc` }}
                     >
-                      <Icon size={17} color={BLUE} />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-headline text-xl sm:text-2xl font-bold text-white uppercase tracking-wide leading-tight mb-1.5">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.36)" }}>
-                        {item.desc}
-                      </p>
-                    </div>
+                      {step.n}
+                    </span>
                   </div>
 
-                  {/* Bottom line */}
+                  {/* ── Icon node — straddling image/body boundary ── */}
                   <div
-                    className="absolute bottom-0 left-4 right-4 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-350 pointer-events-none"
-                    style={{ background: `linear-gradient(90deg, transparent, ${BLUE}50, transparent)` }}
+                    className="absolute left-1/2 -translate-x-1/2 z-20
+                               w-13 h-13 rounded-full flex items-center justify-center
+                               transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_24px_rgba(74,143,224,0.45)]"
+                    style={{
+                      top: "calc(13rem - 1.625rem)", /* 13rem = h-52; 1.625rem = half of w-13 */
+                      width: "3.25rem",
+                      height: "3.25rem",
+                      background: "rgba(7,16,28,1)",
+                      border: `1.5px solid rgba(74,143,224,0.45)`,
+                      boxShadow: "0 0 0 4px rgba(7,16,28,0.9), 0 0 20px rgba(74,143,224,0.15)",
+                    }}
+                  >
+                    <Icon size={19} color={BLUE} strokeWidth={1.5} />
+                  </div>
+
+                  {/* ── Card body ── */}
+                  <div className="flex flex-col items-center text-center px-5 pt-10 pb-7">
+                    {/* Title */}
+                    <h3
+                      className="font-headline text-sm font-bold text-white uppercase tracking-widest leading-tight mb-3"
+                    >
+                      {step.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p
+                      className="text-xs leading-relaxed mb-5"
+                      style={{ color: "rgba(255,255,255,0.4)" }}
+                    >
+                      {step.desc}
+                    </p>
+
+                    {/* Standard tag */}
+                    <span
+                      className="inline-flex items-center text-[9px] font-bold uppercase tracking-[0.18em] px-3 py-1.5 rounded-full mt-auto"
+                      style={{
+                        background: "rgba(74,143,224,0.1)",
+                        border: "1px solid rgba(74,143,224,0.25)",
+                        color: `${BLUE}cc`,
+                      }}
+                    >
+                      {step.tag}
+                    </span>
+                  </div>
+
+                  {/* ── Hover: bottom glow line ── */}
+                  <div
+                    className="absolute bottom-0 left-6 right-6 h-px rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+                    style={{ background: `linear-gradient(90deg, transparent, ${BLUE}70, transparent)` }}
                   />
                 </motion.div>
               );
             })}
-
-            {/* CTA */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.45, delay: 0.45 }}
-              className="flex items-center justify-between pt-1.5 px-1"
-            >
-              <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: "rgba(255,255,255,0.13)" }}>
-                {t.why.location}
-              </span>
-              <motion.a
-                href="#contact"
-                whileHover={{ x: 3 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="inline-flex items-center gap-1.5 font-semibold text-sm"
-                style={{ color: BLUE }}
-              >
-                {t.why.cta}
-                <ArrowRight size={13} />
-              </motion.a>
-            </motion.div>
-          </div>
-
-          {/* ═══ RIGHT: Process 2×2 ═══ */}
-          <div className="flex flex-col gap-3">
-            {/* Label */}
-            <motion.div
-              initial={{ opacity: 0, x: 16 }}
-              animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex items-center gap-2.5"
-            >
-              <div className="w-6 h-px flex-shrink-0" style={{ background: `linear-gradient(to right, transparent, ${BLUE})` }} />
-              <span className="text-[10px] font-bold uppercase tracking-[0.22em]" style={{ color: "rgba(74,143,224,0.6)" }}>
-                {t.why.processLabel}
-              </span>
-            </motion.div>
-
-            {/* Row 1 */}
-            <div className="grid grid-cols-2 gap-2.5">
-              {t.why.steps.slice(0, 2).map((step, i) => (
-                <ProcessCard key={i} step={{ n: `0${i + 1}`, ...step, img: STEP_IMGS[i] }} delay={0.18 + i * 0.09} inView={inView} />
-              ))}
-            </div>
-
-            {/* Connector */}
-            <motion.div
-              initial={{ opacity: 0, scaleY: 0 }}
-              animate={inView ? { opacity: 1, scaleY: 1 } : {}}
-              transition={{ duration: 0.3, delay: 0.35 }}
-              className="flex justify-center origin-top"
-            >
-              <div className="flex flex-col items-center gap-0.5">
-                <div className="w-px h-4" style={{ background: `linear-gradient(to bottom, ${BLUE}50, ${BLUE}aa)` }} />
-                <div
-                  className="w-6 h-6 rounded-full flex items-center justify-center"
-                  style={{ background: "rgba(74,143,224,0.09)", border: `1px solid rgba(74,143,224,0.32)` }}
-                >
-                  <ArrowDown size={12} color={`${BLUE}bb`} />
-                </div>
-                <div className="w-px h-4" style={{ background: `linear-gradient(to bottom, ${BLUE}aa, ${BLUE}40)` }} />
-              </div>
-            </motion.div>
-
-            {/* Row 2 */}
-            <div className="grid grid-cols-2 gap-2.5">
-              {t.why.steps.slice(2, 4).map((step, i) => (
-                <ProcessCard key={i + 2} step={{ n: `0${i + 3}`, ...step, img: STEP_IMGS[i + 2] }} delay={0.38 + i * 0.09} inView={inView} />
-              ))}
-            </div>
-
-            {/* Stats strip */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.58 }}
-              className="grid grid-cols-3 gap-2 mt-0.5"
-            >
-              {t.why.statsStrip.map((s) => (
-                <div
-                  key={s.lbl}
-                  className="text-center py-2.5 rounded-lg"
-                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
-                >
-                  <div className="font-headline text-xs font-bold uppercase tracking-wide leading-none mb-1" style={{ color: BLUE }}>
-                    {s.val}
-                  </div>
-                  <div className="text-[8px] uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.25)" }}>
-                    {s.lbl}
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-
           </div>
         </div>
+
+
       </div>
     </section>
   );
